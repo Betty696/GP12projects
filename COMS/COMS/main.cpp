@@ -15,6 +15,7 @@
 
 #ifdef _DEBUG
 #include "DBD.h"
+#include "debugproc.h"
 #endif
 
 //=============================================================================
@@ -39,7 +40,7 @@ LPDIRECT3DDEVICE9	g_pD3DDevice = NULL;	// デバイスオブジェクト(描画に必要)
 int					g_nCountFPS;			// FPSカウンタ
 #endif
 
-MODE				Mode = MODE_TITLE;		// 初期化時のモード
+MODE				Mode = MODE_GAME;		// 初期化時のモード
 int 				ModeFlag = MODE_NULL;	// モード
 /*初期化の時点でフラグがNULLに設定されていないとエラーが起きやすい*/
 
@@ -284,7 +285,8 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 #ifdef _DEBUG
 	// デバッグ表示の初期化
-	InitDBD();
+	//InitDBD();
+	InitDebugProc();
 #endif
 
 	// ゲーム画面の初期化
@@ -298,7 +300,8 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 void Uninit(void)
 {
 #ifdef _DEBUG
-	UninitDBD();
+	//UninitDBD();
+	UninitDebugProc();
 #endif
 
 // デバイスオブジェクトの開放
@@ -363,7 +366,8 @@ void Draw(void)
 
 #ifdef _DEBUG
 		// デバッグデータ表示
-		DrawDBD(g_nCountFPS);
+		//DrawDBD(g_nCountFPS);
+		DrawDebugProc();
 #endif
 
 		// 描画の終了

@@ -145,28 +145,44 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bg.cpp" />
     <ClCompile Include="DBD.cpp" />
+    <ClCompile Include="debugproc.cpp" />
+    <ClCompile Include="event.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="game BG.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="raival.cpp" />
     <ClCompile Include="result BG.cpp" />
     <ClCompile Include="result.cpp" />
+    <ClCompile Include="schedule.cpp" />
+    <ClCompile Include="terget.cpp" />
     <ClCompile Include="title BG.cpp" />
     <ClCompile Include="title.cpp" />
+    <ClCompile Include="weekloop.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bg.h" />
     <ClInclude Include="DBD.h" />
+    <ClInclude Include="debugproc.h" />
+    <ClInclude Include="event.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="game BG.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="raival.h" />
     <ClInclude Include="result BG.h" />
     <ClInclude Include="result.h" />
+    <ClInclude Include="schedule.h" />
+    <ClInclude Include="terget.h" />
     <ClInclude Include="title BG.h" />
     <ClInclude Include="title.h" />
+    <ClInclude Include="weekloop.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
