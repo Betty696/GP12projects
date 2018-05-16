@@ -293,6 +293,7 @@ void UpdateTitle(void)
 	TitleOperation();
 	CommandMove();
 	UpdateTitleBG();
+	SetVertexTitle();
 
 	//if (GetKeyboardTrigger(DIK_NUMPAD0))
 	//{
@@ -308,6 +309,7 @@ void DrawTitle(void)
 {
 	/*ここではほかで書いたドローを呼ぶ*/
 	/*↓↓↓こんな感じ*/
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	DrawTitleBG();
 	/*================ タイトルロゴ描画 ================*/
@@ -736,11 +738,251 @@ void CommandMove(void)
 }
 
 //=============================================================================
-// コマンド取得関数
+// 頂点の作成
 //=============================================================================
-void GetCommandFlag(void)
+HRESULT MakeVertexTitle(void)
 {
-	return (CommandFlag);
+	/*================ タイトルロゴの頂点作成================*/
+	// 頂点座標の設定
+	g_vertexWkTitleLogo[0].vtx = D3DXVECTOR3(pos_Logo.x - (TITLE_LOGO_SIZE_X / 2), pos_Logo.y - (TITLE_LOGO_SIZE_Y / 2), 0.0f);
+	g_vertexWkTitleLogo[1].vtx = D3DXVECTOR3(pos_Logo.x + (TITLE_LOGO_SIZE_X / 2), pos_Logo.y - (TITLE_LOGO_SIZE_Y / 2), 0.0f);
+	g_vertexWkTitleLogo[2].vtx = D3DXVECTOR3(pos_Logo.x - (TITLE_LOGO_SIZE_X / 2), pos_Logo.y + (TITLE_LOGO_SIZE_Y / 2), 0.0f);
+	g_vertexWkTitleLogo[3].vtx = D3DXVECTOR3(pos_Logo.x + (TITLE_LOGO_SIZE_X / 2), pos_Logo.y + (TITLE_LOGO_SIZE_Y / 2), 0.0f);
+
+	// テクスチャのパースペクティブコレクト用
+	g_vertexWkTitleLogo[0].rhw =
+		g_vertexWkTitleLogo[1].rhw =
+		g_vertexWkTitleLogo[2].rhw =
+		g_vertexWkTitleLogo[3].rhw = 1.0f;
+
+	// 反射光の設定
+	g_vertexWkTitleLogo[0].diffuse =
+		g_vertexWkTitleLogo[1].diffuse =
+		g_vertexWkTitleLogo[2].diffuse =
+		g_vertexWkTitleLogo[3].diffuse = D3DCOLOR_RGBA(255, 0, 0, 255);
+
+	// テクスチャ座標の設定
+	g_vertexWkTitleLogo[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	g_vertexWkTitleLogo[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	g_vertexWkTitleLogo[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	g_vertexWkTitleLogo[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	/*================ アルファ用の頂点作成================*/
+	// 頂点座標の設定
+	g_vertexWkAlfa[0].vtx = D3DXVECTOR3(pos_Alfa.x - (TITLE_ALFA_SIZE_X / 2), pos_Alfa.y - (TITLE_ALFA_SIZE_Y / 2), 0.0f);
+	g_vertexWkAlfa[1].vtx = D3DXVECTOR3(pos_Alfa.x + (TITLE_ALFA_SIZE_X / 2), pos_Alfa.y - (TITLE_ALFA_SIZE_Y / 2), 0.0f);
+	g_vertexWkAlfa[2].vtx = D3DXVECTOR3(pos_Alfa.x - (TITLE_ALFA_SIZE_X / 2), pos_Alfa.y + (TITLE_ALFA_SIZE_Y / 2), 0.0f);
+	g_vertexWkAlfa[3].vtx = D3DXVECTOR3(pos_Alfa.x + (TITLE_ALFA_SIZE_X / 2), pos_Alfa.y + (TITLE_ALFA_SIZE_Y / 2), 0.0f);
+
+	// テクスチャのパースペクティブコレクト用
+	g_vertexWkAlfa[0].rhw =
+		g_vertexWkAlfa[1].rhw =
+		g_vertexWkAlfa[2].rhw =
+		g_vertexWkAlfa[3].rhw = 1.0f;
+
+	// 反射光の設定
+	g_vertexWkAlfa[0].diffuse =
+		g_vertexWkAlfa[1].diffuse =
+		g_vertexWkAlfa[2].diffuse =
+		g_vertexWkAlfa[3].diffuse = D3DCOLOR_RGBA(0, 0, 0, 180);
+
+	// テクスチャ座標の設定
+	g_vertexWkAlfa[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	g_vertexWkAlfa[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	g_vertexWkAlfa[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	g_vertexWkAlfa[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	/*================ Stratテキストの頂点作成================*/
+	// 頂点座標の設定
+	g_vertexWkStart[0].vtx = D3DXVECTOR3(pos_Start.x - (TITLE_START_SIZE_X / 2), pos_Start.y - (TITLE_START_SIZE_Y / 2), 0.0f);
+	g_vertexWkStart[1].vtx = D3DXVECTOR3(pos_Start.x + (TITLE_START_SIZE_X / 2), pos_Start.y - (TITLE_START_SIZE_Y / 2), 0.0f);
+	g_vertexWkStart[2].vtx = D3DXVECTOR3(pos_Start.x - (TITLE_START_SIZE_X / 2), pos_Start.y + (TITLE_START_SIZE_Y / 2), 0.0f);
+	g_vertexWkStart[3].vtx = D3DXVECTOR3(pos_Start.x + (TITLE_START_SIZE_X / 2), pos_Start.y + (TITLE_START_SIZE_Y / 2), 0.0f);
+
+	// テクスチャのパースペクティブコレクト用
+	g_vertexWkStart[0].rhw =
+		g_vertexWkStart[1].rhw =
+		g_vertexWkStart[2].rhw =
+		g_vertexWkStart[3].rhw = 1.0f;
+
+	// 反射光の設定
+	g_vertexWkStart[0].diffuse =
+		g_vertexWkStart[1].diffuse =
+		g_vertexWkStart[2].diffuse =
+		g_vertexWkStart[3].diffuse = D3DCOLOR_RGBA(255, 0, 0, 255);
+
+	// テクスチャ座標の設定
+	g_vertexWkStart[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	g_vertexWkStart[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	g_vertexWkStart[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	g_vertexWkStart[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	/*================ EXITの頂点作成================*/
+	// 頂点座標の設定
+	g_vertexWkExit[3].vtx = D3DXVECTOR3(pos_Exit.x + (TITLE_EXIT_SIZE_X / 2), pos_Exit.y + (TITLE_EXIT_SIZE_Y / 2), 0.0f);
+	g_vertexWkExit[0].vtx = D3DXVECTOR3(pos_Exit.x - (TITLE_EXIT_SIZE_X / 2), pos_Exit.y - (TITLE_EXIT_SIZE_Y / 2), 0.0f);
+	g_vertexWkExit[1].vtx = D3DXVECTOR3(pos_Exit.x + (TITLE_EXIT_SIZE_X / 2), pos_Exit.y - (TITLE_EXIT_SIZE_Y / 2), 0.0f);
+	g_vertexWkExit[2].vtx = D3DXVECTOR3(pos_Exit.x - (TITLE_EXIT_SIZE_X / 2), pos_Exit.y + (TITLE_EXIT_SIZE_Y / 2), 0.0f);
+
+	// テクスチャのパースペクティブコレクト用
+	g_vertexWkExit[0].rhw =
+		g_vertexWkExit[1].rhw =
+		g_vertexWkExit[2].rhw =
+		g_vertexWkExit[3].rhw = 1.0f;
+
+	// 反射光の設定
+	g_vertexWkExit[0].diffuse =
+		g_vertexWkExit[1].diffuse =
+		g_vertexWkExit[2].diffuse =
+		g_vertexWkExit[3].diffuse = D3DCOLOR_RGBA(255, 0, 0, 255);
+
+	// テクスチャ座標の設定
+	g_vertexWkExit[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	g_vertexWkExit[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	g_vertexWkExit[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	g_vertexWkExit[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	/*============================= ショートテキストの頂点作成==============================*/
+	g_vertexWkShort[0].vtx = D3DXVECTOR3(pos_Short.x - (TITLE_SHORT_SIZE_X / 2), pos_Short.y - (TITLE_SHORT_SIZE_Y / 2), 0.0f);
+	g_vertexWkShort[1].vtx = D3DXVECTOR3(pos_Short.x + (TITLE_SHORT_SIZE_X / 2), pos_Short.y - (TITLE_SHORT_SIZE_Y / 2), 0.0f);
+	g_vertexWkShort[2].vtx = D3DXVECTOR3(pos_Short.x - (TITLE_SHORT_SIZE_X / 2), pos_Short.y + (TITLE_SHORT_SIZE_Y / 2), 0.0f);
+	g_vertexWkShort[3].vtx = D3DXVECTOR3(pos_Short.x + (TITLE_SHORT_SIZE_X / 2), pos_Short.y + (TITLE_SHORT_SIZE_Y / 2), 0.0f);
+
+	// テクスチャのパースペクティブコレクト用
+	g_vertexWkShort[0].rhw =
+		g_vertexWkShort[1].rhw =
+		g_vertexWkShort[2].rhw =
+		g_vertexWkShort[3].rhw = 1.0f;
+
+	// 反射光の設定
+	g_vertexWkShort[0].diffuse =
+		g_vertexWkShort[1].diffuse =
+		g_vertexWkShort[2].diffuse =
+		g_vertexWkShort[3].diffuse = D3DCOLOR_RGBA(255, 0, 0, 255);
+
+	// テクスチャ座標の設定
+	g_vertexWkShort[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	g_vertexWkShort[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	g_vertexWkShort[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	g_vertexWkShort[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	/*============================= ミドルテキストの頂点作成==============================*/
+	g_vertexWkMiddle[0].vtx = D3DXVECTOR3(pos_Middle.x - (TITLE_MIDDLE_SIZE_X / 2), pos_Middle.y - (TITLE_MIDDLE_SIZE_Y / 2), 0.0f);
+	g_vertexWkMiddle[1].vtx = D3DXVECTOR3(pos_Middle.x + (TITLE_MIDDLE_SIZE_X / 2), pos_Middle.y - (TITLE_MIDDLE_SIZE_Y / 2), 0.0f);
+	g_vertexWkMiddle[2].vtx = D3DXVECTOR3(pos_Middle.x - (TITLE_MIDDLE_SIZE_X / 2), pos_Middle.y + (TITLE_MIDDLE_SIZE_Y / 2), 0.0f);
+	g_vertexWkMiddle[3].vtx = D3DXVECTOR3(pos_Middle.x + (TITLE_MIDDLE_SIZE_X / 2), pos_Middle.y + (TITLE_MIDDLE_SIZE_Y / 2), 0.0f);
+
+	// テクスチャのパースペクティブコレクト用
+	g_vertexWkMiddle[0].rhw =
+		g_vertexWkMiddle[1].rhw =
+		g_vertexWkMiddle[2].rhw =
+		g_vertexWkMiddle[3].rhw = 1.0f;
+
+	// 反射光の設定
+	g_vertexWkMiddle[0].diffuse =
+		g_vertexWkMiddle[1].diffuse =
+		g_vertexWkMiddle[2].diffuse =
+		g_vertexWkMiddle[3].diffuse = D3DCOLOR_RGBA(255, 0, 0, 255);
+
+	// テクスチャ座標の設定
+	g_vertexWkMiddle[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	g_vertexWkMiddle[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	g_vertexWkMiddle[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	g_vertexWkMiddle[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	/*============================= ロングテキストの頂点作成==============================*/
+	g_vertexWkLong[0].vtx = D3DXVECTOR3(pos_Long.x - (TITLE_LONG_SIZE_X / 2), pos_Long.y - (TITLE_LONG_SIZE_Y / 2), 0.0f);
+	g_vertexWkLong[1].vtx = D3DXVECTOR3(pos_Long.x + (TITLE_LONG_SIZE_X / 2), pos_Long.y - (TITLE_LONG_SIZE_Y / 2), 0.0f);
+	g_vertexWkLong[2].vtx = D3DXVECTOR3(pos_Long.x - (TITLE_LONG_SIZE_X / 2), pos_Long.y + (TITLE_LONG_SIZE_Y / 2), 0.0f);
+	g_vertexWkLong[3].vtx = D3DXVECTOR3(pos_Long.x + (TITLE_LONG_SIZE_X / 2), pos_Long.y + (TITLE_LONG_SIZE_Y / 2), 0.0f);
+
+
+	// テクスチャのパースペクティブコレクト用
+	g_vertexWkLong[0].rhw =
+		g_vertexWkLong[1].rhw =
+		g_vertexWkLong[2].rhw =
+		g_vertexWkLong[3].rhw = 1.0f;
+
+	// 反射光の設定
+	g_vertexWkLong[0].diffuse =
+		g_vertexWkLong[1].diffuse =
+		g_vertexWkLong[2].diffuse =
+		g_vertexWkLong[3].diffuse = D3DCOLOR_RGBA(255, 0, 0, 255);
+
+	// テクスチャ座標の設定
+	g_vertexWkLong[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	g_vertexWkLong[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	g_vertexWkLong[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	g_vertexWkLong[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	/*============================= 戻るテキストの頂点作成==============================*/
+	g_vertexWkBack[0].vtx = D3DXVECTOR3(pos_Back.x - (TITLE_BACK_SIZE_X / 2), pos_Back.y - (TITLE_BACK_SIZE_Y / 2), 0.0f);
+	g_vertexWkBack[1].vtx = D3DXVECTOR3(pos_Back.x + (TITLE_BACK_SIZE_X / 2), pos_Back.y - (TITLE_BACK_SIZE_Y / 2), 0.0f);
+	g_vertexWkBack[2].vtx = D3DXVECTOR3(pos_Back.x - (TITLE_BACK_SIZE_X / 2), pos_Back.y + (TITLE_BACK_SIZE_Y / 2), 0.0f);
+	g_vertexWkBack[3].vtx = D3DXVECTOR3(pos_Back.x + (TITLE_BACK_SIZE_X / 2), pos_Back.y + (TITLE_BACK_SIZE_Y / 2), 0.0f);
+
+	// テクスチャのパースペクティブコレクト用
+	g_vertexWkBack[0].rhw =
+		g_vertexWkBack[1].rhw =
+		g_vertexWkBack[2].rhw =
+		g_vertexWkBack[3].rhw = 1.0f;
+
+	// 反射光の設定
+	g_vertexWkBack[0].diffuse =
+		g_vertexWkBack[1].diffuse =
+		g_vertexWkBack[2].diffuse =
+		g_vertexWkBack[3].diffuse = D3DCOLOR_RGBA(255, 0, 0, 255);
+
+	// テクスチャ座標の設定
+	g_vertexWkBack[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	g_vertexWkBack[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	g_vertexWkBack[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	g_vertexWkBack[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	return S_OK;
+}
+
+//=============================================================================
+// 頂点座標の設定関数
+//=============================================================================
+void SetVertexTitle(void)
+{
+	// =====================================スタート頂点座標の設定
+	g_vertexWkStart[0].vtx = D3DXVECTOR3(pos_Start.x - (TITLE_START_SIZE_X / 2), pos_Start.y - (TITLE_START_SIZE_Y / 2), 0.0f);
+	g_vertexWkStart[1].vtx = D3DXVECTOR3(pos_Start.x + (TITLE_START_SIZE_X / 2), pos_Start.y - (TITLE_START_SIZE_Y / 2), 0.0f);
+	g_vertexWkStart[2].vtx = D3DXVECTOR3(pos_Start.x - (TITLE_START_SIZE_X / 2), pos_Start.y + (TITLE_START_SIZE_Y / 2), 0.0f);
+	g_vertexWkStart[3].vtx = D3DXVECTOR3(pos_Start.x + (TITLE_START_SIZE_X / 2), pos_Start.y + (TITLE_START_SIZE_Y / 2), 0.0f);
+
+	// =====================================終了頂点座標の設定
+	g_vertexWkExit[3].vtx = D3DXVECTOR3(pos_Exit.x + (TITLE_EXIT_SIZE_X / 2), pos_Exit.y + (TITLE_EXIT_SIZE_Y / 2), 0.0f);
+	g_vertexWkExit[0].vtx = D3DXVECTOR3(pos_Exit.x - (TITLE_EXIT_SIZE_X / 2), pos_Exit.y - (TITLE_EXIT_SIZE_Y / 2), 0.0f);
+	g_vertexWkExit[1].vtx = D3DXVECTOR3(pos_Exit.x + (TITLE_EXIT_SIZE_X / 2), pos_Exit.y - (TITLE_EXIT_SIZE_Y / 2), 0.0f);
+	g_vertexWkExit[2].vtx = D3DXVECTOR3(pos_Exit.x - (TITLE_EXIT_SIZE_X / 2), pos_Exit.y + (TITLE_EXIT_SIZE_Y / 2), 0.0f);
+
+	// =====================================ショート頂点座標の設定
+	g_vertexWkShort[0].vtx = D3DXVECTOR3(pos_Short.x - (TITLE_SHORT_SIZE_X / 2), pos_Short.y - (TITLE_SHORT_SIZE_Y / 2), 0.0f);
+	g_vertexWkShort[1].vtx = D3DXVECTOR3(pos_Short.x + (TITLE_SHORT_SIZE_X / 2), pos_Short.y - (TITLE_SHORT_SIZE_Y / 2), 0.0f);
+	g_vertexWkShort[2].vtx = D3DXVECTOR3(pos_Short.x - (TITLE_SHORT_SIZE_X / 2), pos_Short.y + (TITLE_SHORT_SIZE_Y / 2), 0.0f);
+	g_vertexWkShort[3].vtx = D3DXVECTOR3(pos_Short.x + (TITLE_SHORT_SIZE_X / 2), pos_Short.y + (TITLE_SHORT_SIZE_Y / 2), 0.0f);
+
+	// =====================================ミドル頂点座標の設定
+	g_vertexWkMiddle[0].vtx = D3DXVECTOR3(pos_Middle.x - (TITLE_MIDDLE_SIZE_X / 2), pos_Middle.y - (TITLE_MIDDLE_SIZE_Y / 2), 0.0f);
+	g_vertexWkMiddle[1].vtx = D3DXVECTOR3(pos_Middle.x + (TITLE_MIDDLE_SIZE_X / 2), pos_Middle.y - (TITLE_MIDDLE_SIZE_Y / 2), 0.0f);
+	g_vertexWkMiddle[2].vtx = D3DXVECTOR3(pos_Middle.x - (TITLE_MIDDLE_SIZE_X / 2), pos_Middle.y + (TITLE_MIDDLE_SIZE_Y / 2), 0.0f);
+	g_vertexWkMiddle[3].vtx = D3DXVECTOR3(pos_Middle.x + (TITLE_MIDDLE_SIZE_X / 2), pos_Middle.y + (TITLE_MIDDLE_SIZE_Y / 2), 0.0f);
+
+	// =====================================ロング頂点座標の設定
+	g_vertexWkLong[0].vtx = D3DXVECTOR3(pos_Long.x - (TITLE_LONG_SIZE_X / 2), pos_Long.y - (TITLE_LONG_SIZE_Y / 2), 0.0f);
+	g_vertexWkLong[1].vtx = D3DXVECTOR3(pos_Long.x + (TITLE_LONG_SIZE_X / 2), pos_Long.y - (TITLE_LONG_SIZE_Y / 2), 0.0f);
+	g_vertexWkLong[2].vtx = D3DXVECTOR3(pos_Long.x - (TITLE_LONG_SIZE_X / 2), pos_Long.y + (TITLE_LONG_SIZE_Y / 2), 0.0f);
+	g_vertexWkLong[3].vtx = D3DXVECTOR3(pos_Long.x + (TITLE_LONG_SIZE_X / 2), pos_Long.y + (TITLE_LONG_SIZE_Y / 2), 0.0f);
+
+	// =====================================戻る頂点座標の設定
+	g_vertexWkBack[0].vtx = D3DXVECTOR3(pos_Back.x - (TITLE_BACK_SIZE_X / 2), pos_Back.y - (TITLE_BACK_SIZE_Y / 2), 0.0f);
+	g_vertexWkBack[1].vtx = D3DXVECTOR3(pos_Back.x + (TITLE_BACK_SIZE_X / 2), pos_Back.y - (TITLE_BACK_SIZE_Y / 2), 0.0f);
+	g_vertexWkBack[2].vtx = D3DXVECTOR3(pos_Back.x - (TITLE_BACK_SIZE_X / 2), pos_Back.y + (TITLE_BACK_SIZE_Y / 2), 0.0f);
+	g_vertexWkBack[3].vtx = D3DXVECTOR3(pos_Back.x + (TITLE_BACK_SIZE_X / 2), pos_Back.y + (TITLE_BACK_SIZE_Y / 2), 0.0f);
+
 }
 
 //=============================================================================
