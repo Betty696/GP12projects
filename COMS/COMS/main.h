@@ -80,6 +80,6 @@ typedef enum
 //=============================================================================
 // プロトタイプ宣言
 LPDIRECT3DDEVICE9 GetDevice(void);
-void SetMode(MODE mode, int oldMode);
+void SetMode(MODE mode);
 MODE GetMode(void);
 #endif

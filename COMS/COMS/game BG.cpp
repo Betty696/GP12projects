@@ -32,8 +32,8 @@ typedef struct
 LPDIRECT3DTEXTURE9		D3DGameBGTex = { NULL };		// テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 D3DGameBGVtxBuf = NULL;				// 頂点バッファインターフェースへのポインタ
 
-																//=============================================================================
-																// 初期化処理
+//=============================================================================
+// 初期化処理
 HRESULT InitGameBG(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();

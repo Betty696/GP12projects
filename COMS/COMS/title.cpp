@@ -18,12 +18,12 @@
 //=============================================================================
 #define	TEXTURE_TITLE_LOGO		"data/texture/title/TitleLogo.png"		// ゲームタイトルテクスチャファイル名
 #define	TEXTURE_TITLE_ALFA		"data/texture/title/Alfa.png"			// アルファ用テクスチャファイル名
-#define	TEXTURE_TITLE_START		"data/texture/title/Start.png"			// スタートテクスチャファイル名
-#define	TEXTURE_TITLE_EXIT		"data/texture/title/Exit.png"			// 終了テクスチャファイル名
-#define	TEXTURE_TITLE_SHORT		"data/texture/title/Short.png"			// 終了テクスチャファイル名
-#define	TEXTURE_TITLE_MIDDLE	"data/texture/title/Middle.png"			// 終了テクスチャファイル名
-#define	TEXTURE_TITLE_LONG		"data/texture/title/Long.png"			// 終了テクスチャファイル名
-#define	TEXTURE_TITLE_BACK		"data/texture/title/Back.png"			// 終了テクスチャファイル名
+#define	TEXTURE_TITLE_START		"data/texture/title/はじめる.png"		// スタートテクスチャファイル名
+#define	TEXTURE_TITLE_EXIT		"data/texture/title/おわる.png"			// 終了テクスチャファイル名
+#define	TEXTURE_TITLE_SHORT		"data/texture/title/ショート.png"		// 終了テクスチャファイル名
+#define	TEXTURE_TITLE_MIDDLE	"data/texture/title/ミドル.png"			// 終了テクスチャファイル名
+#define	TEXTURE_TITLE_LONG		"data/texture/title/ロング.png"			// 終了テクスチャファイル名
+#define	TEXTURE_TITLE_BACK		"data/texture/title/もどる.png"			// 終了テクスチャファイル名
 
 #define	TITLE_LOGO_SIZE_X		(SCREEN_WIDTH*2/3)		// ロゴの幅
 #define	TITLE_LOGO_SIZE_Y		(SCREEN_HEIGHT)			// ロゴの高さ
@@ -123,7 +123,7 @@ D3DXVECTOR3 pos_Back;
 //=============================================================================
 // 初期化処理
 //=============================================================================
-void InitTitle(int oldMode)
+void InitTitle(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	pos_Logo = D3DXVECTOR3(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2, 0.0f);
@@ -134,153 +134,104 @@ void InitTitle(int oldMode)
 	pos_Middle = D3DXVECTOR3(SCREEN_WIDTH * 3 / 4, SCREEN_HEIGHT * 2 / 5, 0.0f);
 	pos_Long = D3DXVECTOR3(SCREEN_WIDTH * 3 / 4, SCREEN_HEIGHT * 3 / 5, 0.0f);
 	pos_Back = D3DXVECTOR3(SCREEN_WIDTH * 3 / 4, SCREEN_HEIGHT * 4 / 5, 0.0f);
-	switch (oldMode)
-	{
-	case MODE_NULL:
-		// 初めての初期化
-		/*何も初期化されていあないと想定して、タイトル画面内で使うものを全部初期化*/
-		// テクスチャの読み込み
-		D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
-			TEXTURE_TITLE_LOGO,					// ファイルの名前
-			&g_pD3DTextureTitleLogo);			// 読み込むメモリー
 
-		D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
-			TEXTURE_TITLE_ALFA,					// ファイルの名前
-			&g_pD3DTextureAlfa);			// 読み込むメモリー
+	// テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
+		TEXTURE_TITLE_LOGO,					// ファイルの名前
+		&g_pD3DTextureTitleLogo);			// 読み込むメモリー
 
-		D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
-			TEXTURE_TITLE_START,				// ファイルの名前
-			&g_pD3DTextureStart);				// 読み込むメモリー
+	D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
+		TEXTURE_TITLE_ALFA,					// ファイルの名前
+		&g_pD3DTextureAlfa);			// 読み込むメモリー
 
-		D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
-			TEXTURE_TITLE_EXIT,					// ファイルの名前
-			&g_pD3DTextureExit);				// 読み込むメモリー
+	D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
+		TEXTURE_TITLE_START,				// ファイルの名前
+		&g_pD3DTextureStart);				// 読み込むメモリー
 
-		D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
-			TEXTURE_TITLE_SHORT,					// ファイルの名前
-			&g_pD3DTextureShort);				// 読み込むメモリー
+	D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
+		TEXTURE_TITLE_EXIT,					// ファイルの名前
+		&g_pD3DTextureExit);				// 読み込むメモリー
 
-		D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
-			TEXTURE_TITLE_MIDDLE,					// ファイルの名前
-			&g_pD3DTextureMiddle);				// 読み込むメモリー
+	D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
+		TEXTURE_TITLE_SHORT,					// ファイルの名前
+		&g_pD3DTextureShort);				// 読み込むメモリー
 
-		D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
-			TEXTURE_TITLE_LONG,					// ファイルの名前
-			&g_pD3DTextureLong);				// 読み込むメモリー
+	D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
+		TEXTURE_TITLE_MIDDLE,					// ファイルの名前
+		&g_pD3DTextureMiddle);				// 読み込むメモリー
 
-		D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
-			TEXTURE_TITLE_BACK,					// ファイルの名前
-			&g_pD3DTextureBack);				// 読み込むメモリー
+	D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
+		TEXTURE_TITLE_LONG,					// ファイルの名前
+		&g_pD3DTextureLong);				// 読み込むメモリー
 
-		TitleMode = TITLE_START;		//モードの初期化
-		CommandFlag = COMMAND_START;	//コマンドフラグ初期化
-		MoveCount = 0;					//移動カウント初期化
-		MoveFlag = false;				//移動フラグ初期化
-		InitTitleBG();					//背景初期化
-		MakeVertexTitle();
+	D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
+		TEXTURE_TITLE_BACK,					// ファイルの名前
+		&g_pD3DTextureBack);				// 読み込むメモリー
 
-		break;
-	case MODE_GAME:
-		// ゲームになかった物だけ初期化
-		/*ゲーム画面からタイトル画面へ切り替わった時に、ゲームで初期化されなかったものを初期化*/
-		/*注意*/
-		/*ゲーム画面で初期化されたものはリセット処理が必要な時がある*/
-
-		//=========================
-		// 初期化
-		InitTitleBG();
-
-		//=========================
-		// リセット
-
-		break;
-	case MODE_RESULT:
-		// リザルトになかった物だけ初期化
-		/*リザルト画面からタイトル画面へ切り替わった時に、リザルトで初期化されなかったものを初期化*/
-		/*注意*/
-		/*リザルト画面で初期化されたものはリセット処理が必要な時がある*/
-
-		//=========================
-		// 初期化
-		InitTitleBG();
-
-		//=========================
-		// リセット
-
-		break;
-	}
+	TitleMode = TITLE_START;		//モードの初期化
+	CommandFlag = COMMAND_START;	//コマンドフラグ初期化
+	MoveCount = 0;					//移動カウント初期化
+	MoveFlag = false;				//移動フラグ初期化
+	InitTitleBG();					//背景初期化
+	MakeVertexTitle();
 
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitTitle(int mode)
+void UninitTitle(void)
 {
-	switch (mode)
-	{
-	case MODE_GAME:
-		// ゲームに使わないものをリリース
-		/*タイトル画面からゲーム画面へ切り替えるときに、ゲーム画面で使わないものをリリース処理をする*/
-		if (g_pD3DTextureTitleLogo != NULL)
-		{// テクスチャの開放
-			g_pD3DTextureTitleLogo->Release();
-			g_pD3DTextureTitleLogo = NULL;
-		}
 
-		if (g_pD3DTextureAlfa != NULL)
-		{// テクスチャの開放
-			g_pD3DTextureAlfa->Release();
-			g_pD3DTextureAlfa = NULL;
-		}
-
-		if (g_pD3DTextureStart != NULL)
-		{// テクスチャの開放
-			g_pD3DTextureStart->Release();
-			g_pD3DTextureStart = NULL;
-		}
-
-		if (g_pD3DTextureExit != NULL)
-		{// テクスチャの開放
-			g_pD3DTextureExit->Release();
-			g_pD3DTextureExit = NULL;
-		}
-
-		if (g_pD3DTextureShort != NULL)
-		{// テクスチャの開放
-			g_pD3DTextureShort->Release();
-			g_pD3DTextureShort = NULL;
-		}
-
-		if (g_pD3DTextureMiddle != NULL)
-		{// テクスチャの開放
-			g_pD3DTextureMiddle->Release();
-			g_pD3DTextureMiddle = NULL;
-		}
-
-		if (g_pD3DTextureLong != NULL)
-		{// テクスチャの開放
-			g_pD3DTextureLong->Release();
-			g_pD3DTextureLong = NULL;
-		}
-
-		if (g_pD3DTextureBack != NULL)
-		{// テクスチャの開放
-			g_pD3DTextureBack->Release();
-			g_pD3DTextureBack = NULL;
-		}
-
-		UninitTitleBG();
-
-		break;
-	case MODE_RESULT:
-		// リザルトに使わないものをリリース
-		/*タイトル画面からリザルト画面へ切り替えるときに、リザルト画面で使わないものをリリース処理をする*/
-
-		UninitTitleBG();
-
-		break;
+	if (g_pD3DTextureTitleLogo != NULL)
+	{// テクスチャの開放
+		g_pD3DTextureTitleLogo->Release();
+		g_pD3DTextureTitleLogo = NULL;
 	}
+
+	if (g_pD3DTextureAlfa != NULL)
+	{// テクスチャの開放
+		g_pD3DTextureAlfa->Release();
+		g_pD3DTextureAlfa = NULL;
+	}
+
+	if (g_pD3DTextureStart != NULL)
+	{// テクスチャの開放
+		g_pD3DTextureStart->Release();
+		g_pD3DTextureStart = NULL;
+	}
+
+	if (g_pD3DTextureExit != NULL)
+	{// テクスチャの開放
+		g_pD3DTextureExit->Release();
+		g_pD3DTextureExit = NULL;
+	}
+
+	if (g_pD3DTextureShort != NULL)
+	{// テクスチャの開放
+		g_pD3DTextureShort->Release();
+		g_pD3DTextureShort = NULL;
+	}
+
+	if (g_pD3DTextureMiddle != NULL)
+	{// テクスチャの開放
+		g_pD3DTextureMiddle->Release();
+		g_pD3DTextureMiddle = NULL;
+	}
+
+	if (g_pD3DTextureLong != NULL)
+	{// テクスチャの開放
+		g_pD3DTextureLong->Release();
+		g_pD3DTextureLong = NULL;
+	}
+
+	if (g_pD3DTextureBack != NULL)
+	{// テクスチャの開放
+		g_pD3DTextureBack->Release();
+		g_pD3DTextureBack = NULL;
+	}
+
+	UninitTitleBG();
 }
 
 //=============================================================================

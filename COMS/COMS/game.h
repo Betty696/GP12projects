@@ -64,8 +64,8 @@ enum
 
 //=============================================================================
 // プロトタイプ宣言
-void InitGame(int oldMode);
-void UninitGame(int oldMode);
+void InitGame(void);
+void UninitGame(void);
 void UpdateGame(void);
 void DrawGame(void);
 void SetDifficult(int difficult);

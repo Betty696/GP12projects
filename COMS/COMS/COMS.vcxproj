@@ -159,10 +159,12 @@
     <ClCompile Include="result BG.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="schedule.cpp" />
+    <ClCompile Include="text.cpp" />
     <ClCompile Include="terget.cpp" />
     <ClCompile Include="title BG.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="weekloop.cpp" />
+    <ClCompile Include="weekresult.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bg.h" />
@@ -180,9 +182,11 @@
     <ClInclude Include="result.h" />
     <ClInclude Include="schedule.h" />
     <ClInclude Include="terget.h" />
+    <ClInclude Include="text.h" />
     <ClInclude Include="title BG.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="weekloop.h" />
+    <ClInclude Include="weekresult.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

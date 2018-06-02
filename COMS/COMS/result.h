@@ -11,8 +11,8 @@
 
 //=============================================================================
 // プロトタイプ宣言
-void InitResult(int oldMode);
-void UninitResult(int mode);
+void InitResult(void);
+void UninitResult(void);
 void UpdateResult(void);
 void DrawResult(void);
 

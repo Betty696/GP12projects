@@ -71,11 +71,9 @@ void UpdateFade(void)
 
 				// 現在のモードを取得
 				mode = GetMode();
-				// リリース処理のためにモードを保存
-				int oldMode = mode;
 
 				// モードを設定
-				SetMode(g_mode, oldMode);
+				SetMode(g_mode);
 			}
 
 			// 色を設定

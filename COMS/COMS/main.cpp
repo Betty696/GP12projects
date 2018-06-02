@@ -40,9 +40,8 @@ LPDIRECT3DDEVICE9	g_pD3DDevice = NULL;	// デバイスオブジェクト(描画に必要)
 int					g_nCountFPS;			// FPSカウンタ
 #endif
 
-MODE				Mode = MODE_GAME;		// 初期化時のモード
-int 				ModeFlag = MODE_NULL;	// モード
-/*初期化の時点でフラグがNULLに設定されていないとエラーが起きやすい*/
+MODE				Mode = MODE_TITLE;		// 初期化時のモード
+
 
 //=============================================================================
 // メイン関数
@@ -290,7 +289,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 #endif
 
 	// ゲーム画面の初期化
-	SetMode(Mode, ModeFlag);
+	SetMode(Mode);
 
 	return S_OK;
 }
@@ -380,7 +379,7 @@ void Draw(void)
 
 //=============================================================================
 // モードの変換
-void SetMode(MODE mode, int oldMode)
+void SetMode(MODE mode)
 {
 
 	Mode = mode;
@@ -393,45 +392,35 @@ void SetMode(MODE mode, int oldMode)
 		//=======================================
 		// タイトル画面
 	case MODE_TITLE:
-		if (oldMode == MODE_GAME)
-		{// ゲーム画面の終了
-			UninitGame(mode);
-		}
-		else
-		{// リザルト画面の終了
-			UninitResult(mode);
-		}
+		// いらないものの終了処理
+		UninitGame();
+		UninitResult();
+
 
 		// タイトル画面の初期化
-		InitTitle(oldMode);
+		InitTitle();
 		break;
 		//=======================================
 		// ゲーム画面
 	case MODE_GAME:
-		if (oldMode == MODE_TITLE)
-		{// タイトル画面の終了
-			UninitTitle(mode);
-		}
-		else
-		{// リザルト画面の終了
-			UninitResult(mode);
-		}
+		// いらないものの終了処理
+		UninitTitle();
+		UninitResult();
+
+
 		// ゲーム画面の初期化
-		InitGame(oldMode);
+		InitGame();
 		break;
 		//=======================================
 		// リザルト画面
 	case MODE_RESULT:
-		if (oldMode == MODE_TITLE)
-		{// タイトル画面の終了
-			UninitTitle(mode);
-		}
-		else
-		{// ゲーム画面の終了
-			UninitGame(mode);
-		}
+		// いらないものの終了処理
+		UninitTitle();
+		UninitGame();
+
+
 		// リザルト画面の初期化
-		InitResult(oldMode);
+		InitResult();
 		break;
 
 

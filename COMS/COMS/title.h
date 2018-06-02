@@ -11,8 +11,8 @@
 
 //=============================================================================
 // プロトタイプ宣言
-void InitTitle(int oldMode);
-void UninitTitle(int oldMode);
+void InitTitle(void);
+void UninitTitle(void);
 void UpdateTitle(void);
 void DrawTitle(void);
 
