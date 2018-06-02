@@ -1,3 +1,10 @@
-﻿  weekloop.cpp
-  COMS.vcxproj -> C:\Users\fujita.kosuke\Documents\Visual Studio 2015\Projects\GM23\20180510_new_自分用\GP12projects\COMS\Debug\COMS.exe
-  COMS.vcxproj -> C:\Users\fujita.kosuke\Documents\Visual Studio 2015\Projects\GM23\20180510_new_自分用\GP12projects\COMS\Debug\COMS.pdb (Full PDB)
+﻿6/3/2018 5:32:09 AM にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "D:\file\GitHub\GP12projects\COMS\COMS\COMS.vcxproj" (Build ターゲット)。
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (COMS_TEST.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+     1>Link:
+         COMS.vcxproj -> D:\file\GitHub\GP12projects\COMS\Debug\COMS.exe
+     1>プロジェクト "D:\file\GitHub\GP12projects\COMS\COMS\COMS.vcxproj" (Build ターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+経過時間 00:00:00.07

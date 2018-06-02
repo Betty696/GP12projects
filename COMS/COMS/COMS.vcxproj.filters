@@ -33,72 +33,87 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="basic.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="fade.cpp">
+    <ClCompile Include="bg.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="DBD.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="debugproc.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="fade.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="input.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="title BG.cpp">
-      <Filter>ソース ファイル\title</Filter>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="raival.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="schedule.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="terget.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="text box.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="text.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="weekloop.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="weekresult.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="title.cpp">
+      <Filter>ソース ファイル\title</Filter>
+    </ClCompile>
+    <ClCompile Include="title BG.cpp">
       <Filter>ソース ファイル\title</Filter>
     </ClCompile>
     <ClCompile Include="game.cpp">
       <Filter>ソース ファイル\game</Filter>
     </ClCompile>
-    <ClCompile Include="result.cpp">
-      <Filter>ソース ファイル\result</Filter>
-    </ClCompile>
     <ClCompile Include="game BG.cpp">
+      <Filter>ソース ファイル\game</Filter>
+    </ClCompile>
+    <ClCompile Include="event.cpp">
       <Filter>ソース ファイル\game</Filter>
     </ClCompile>
     <ClCompile Include="result BG.cpp">
       <Filter>ソース ファイル\result</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>ソース ファイル\game</Filter>
-    </ClCompile>
-    <ClCompile Include="raival.cpp">
-      <Filter>ソース ファイル\game</Filter>
-    </ClCompile>
-    <ClCompile Include="schedule.cpp">
-      <Filter>ソース ファイル\game</Filter>
-    </ClCompile>
-    <ClCompile Include="terget.cpp">
-      <Filter>ソース ファイル\game</Filter>
-    </ClCompile>
-    <ClCompile Include="weekloop.cpp">
-      <Filter>ソース ファイル\game</Filter>
-    </ClCompile>
-    <ClCompile Include="bg.cpp">
-      <Filter>ソース ファイル\game</Filter>
-    </ClCompile>
-    <ClCompile Include="debugproc.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="event.cpp">
-      <Filter>ソース ファイル\game</Filter>
-    </ClCompile>
-    <ClCompile Include="text.cpp">
-      <Filter>ソース ファイル\game</Filter>
-    </ClCompile>
-    <ClCompile Include="weekresult.cpp">
-      <Filter>ソース ファイル\game</Filter>
+    <ClCompile Include="result.cpp">
+      <Filter>ソース ファイル\result</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="main.h">
+    <ClInclude Include="basic.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="bg.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="DBD.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="debugproc.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="event.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="fade.h">
@@ -107,11 +122,41 @@
     <ClInclude Include="input.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="title.h">
-      <Filter>ヘッダー ファイル\title</Filter>
+    <ClInclude Include="main.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="raival.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="schedule.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="terget.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="text box.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="text.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="weekloop.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="weekresult.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="result.h">
       <Filter>ヘッダー ファイル\result</Filter>
+    </ClInclude>
+    <ClInclude Include="result BG.h">
+      <Filter>ヘッダー ファイル\result</Filter>
+    </ClInclude>
+    <ClInclude Include="game BG.h">
+      <Filter>ヘッダー ファイル\game</Filter>
     </ClInclude>
     <ClInclude Include="game.h">
       <Filter>ヘッダー ファイル\game</Filter>
@@ -119,41 +164,8 @@
     <ClInclude Include="title BG.h">
       <Filter>ヘッダー ファイル\title</Filter>
     </ClInclude>
-    <ClInclude Include="game BG.h">
-      <Filter>ヘッダー ファイル\game</Filter>
-    </ClInclude>
-    <ClInclude Include="result BG.h">
-      <Filter>ヘッダー ファイル\result</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>ヘッダー ファイル\game</Filter>
-    </ClInclude>
-    <ClInclude Include="raival.h">
-      <Filter>ヘッダー ファイル\game</Filter>
-    </ClInclude>
-    <ClInclude Include="schedule.h">
-      <Filter>ヘッダー ファイル\game</Filter>
-    </ClInclude>
-    <ClInclude Include="terget.h">
-      <Filter>ヘッダー ファイル\game</Filter>
-    </ClInclude>
-    <ClInclude Include="weekloop.h">
-      <Filter>ヘッダー ファイル\game</Filter>
-    </ClInclude>
-    <ClInclude Include="bg.h">
-      <Filter>ヘッダー ファイル\game</Filter>
-    </ClInclude>
-    <ClInclude Include="debugproc.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="event.h">
-      <Filter>ヘッダー ファイル\game</Filter>
-    </ClInclude>
-    <ClInclude Include="text.h">
-      <Filter>ヘッダー ファイル\game</Filter>
-    </ClInclude>
-    <ClInclude Include="weekresult.h">
-      <Filter>ヘッダー ファイル\game</Filter>
+    <ClInclude Include="title.h">
+      <Filter>ヘッダー ファイル\title</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
