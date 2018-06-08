@@ -14,7 +14,10 @@
 #include "bg.h"
 #include "game.h"
 
+#include "rival.h"
 #include "text box.h"
+
+#include "file data.h"
 
 //=============================================================================
 // マクロ定義
@@ -30,17 +33,21 @@ WEEKLOOP g_weekloop;
 void InitWeekloop(void)
 {
 	//ウィークループ取得
-	WEEKLOOP* weekloop = GetWeeekloop();
+	WEEKLOOP *weekloop = &g_weekloop;
 
 	weekloop->week_cnt = 0;
-	weekloop->loopmood = WEEKLOOP_SCHEDULE;
+	weekloop->status = WEEKLOOP_TARGET;
+
+	OpenEventFile(weekloop->week_cnt);
 	//各Init呼び出し
-	InitBg();
 	InitSchedule();
+	InitBg();
 	InitEvent();
-	//InitText();
+	InitText();
 	InitTextBox();
 
+
+	InitRival();
 	InitWeekresult();
 
 	return;
@@ -53,7 +60,7 @@ void UninitWeekloop(void)
 	UninitBg();
 	UninitSchedule();
 	UninitEvent();
-	//UninitText();
+	UninitRival();
 	UninitTextBox();
 	UninitWeekresult();
 }
@@ -65,23 +72,29 @@ void UpdateWeekloop(void)
 	//ゲーム取得
 	GAME* game = GetGame();
 	//ウィークループ取得
-	WEEKLOOP* weekloop = GetWeeekloop();
-	//現在の週ループを判別し描画
-	switch (weekloop->loopmood)
+	WEEKLOOP *weekloop = &g_weekloop;
+
+	switch (weekloop->status)
 	{
-	case WEEKLOOP_SCHEDULE:
+	case WEEKLOOP_TARGET:
+		UpdateRival();
 		UpdateSchedule();
 		UpdateBg();
+		UpdateText();
+		UpdateTextBox();
 		break;
 	case WEEKLOOP_EVENT:
+		UpdateRival();
 		UpdateBg();
 		UpdateEvent();
-		//UpdateText();
+		UpdateText();
 		UpdateTextBox();
 		break;
 	case WEEKLOOP_RESULT:
 		UpdateBg();
 		UpdateWeekresult();
+		UpdateText();
+		UpdateTextBox();
 		break;
 	}
 
@@ -97,22 +110,27 @@ void UpdateWeekloop(void)
 void DrawWeekloop(void)
 {
 	//ウィークループ取得
-	WEEKLOOP* weekloop = GetWeeekloop();
+	WEEKLOOP *weekloop = &g_weekloop;
 	//現在の週ループを判別し描画
-	switch (weekloop->loopmood)
+	switch (weekloop->status)
 	{
-	case WEEKLOOP_SCHEDULE:
+	case WEEKLOOP_TARGET:
 		DrawBg();
+		DrawRival();
+		DrawTextData();
 		break;
 	case WEEKLOOP_EVENT:
 		DrawBg();
 		DrawEvent();
-		//DrawText();
+		DrawRival();
 		DrawTextBox();
+		DrawTextData();
 		break;
 	case WEEKLOOP_RESULT:
 		DrawBg();
 		DrawWeekresult();
+		DrawTextBox();
+		DrawTextData();
 		break;
 	}
 }
@@ -122,14 +140,4 @@ void DrawWeekloop(void)
 WEEKLOOP* GetWeeekloop(void)
 {
 	return &g_weekloop;
-}
-
-//=============================================================================
-// ウィークループのモードを返す関数
-int SetWeekloopMode(void)
-{
-	//ウィークループ取得
-	WEEKLOOP* weekloop = GetWeeekloop();
-
-	return weekloop->loopmood;
 }

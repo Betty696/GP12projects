@@ -14,8 +14,12 @@
 
 //=============================================================================
 // マクロ定義
-#define GRAVITY					(0.25)
 #define WEEK_NUM_PROTO_MAX		(5)		//プロトタイプ難易度における最大の週数
+
+
+#define SCREEN_POS_RIGHT	(D3DXVECTOR2(SCREEN_WIDTH/4,(SCREEN_HEIGHT/2)))
+#define SCREEN_POS_LEFT		(D3DXVECTOR2((SCREEN_WIDTH/4) * 3,(SCREEN_HEIGHT/2)))
+#define SCREEN_POS_MIDDLE	(D3DXVECTOR2(SCREEN_WIDTH/2,(SCREEN_HEIGHT/2)))
 
 //=============================================================================
 // 構造体宣言
@@ -24,24 +28,13 @@ typedef struct //ゲーム本編を制御するもの（経過週数、難易度）
 	int difficult;	//選択された難易度
 }GAME;
 
-//キャラクター構造体(全キャラクターが共有するもの)
-typedef struct
+enum
 {
-	VERTEX_2D			vertexWk[NUM_VERTEX];		// 頂点情報格納ワーク
-	D3DXVECTOR3			pos;						// ポリゴン表示用pos
-	D3DXVECTOR2			size;						// プレイヤーのサイズ
-	D3DXVECTOR3			rot;						// プレイヤーの回転量
-	float				radius;						// プレイヤーの半径
-	float				baseangle;					// プレイヤーの基準角度
-	bool				use;						// 使用フラグ
-	int					idx;						// キャラ番号
-}CHARACTOR;
+	RIGHT_POS_Idx = 0,
+	LEFT_POS_Idx,
+	MIDDLE_POS_Idx,
+};
 
-//その人がある一人に持つ感情構造体
-typedef struct
-{
-	int					attraction;		//好感度
-}CHARA_MOOD;
 
 //難易度のタイプ
 enum
@@ -56,9 +49,9 @@ enum
 {
 	IDX_PLAYER = 0,
 	IDX_TERGET,
-	IDX_RAIVAL00,
-	IDX_RAIVAL01,
-	IDX_RAIVAL02,
+	IDX_RIVAL00,
+	IDX_RIVAL01,
+	IDX_RIVAL02,
 	IDX_MAX
 };
 

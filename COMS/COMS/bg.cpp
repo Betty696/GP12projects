@@ -80,7 +80,7 @@ void UpdateBg(void)
 	WEEKLOOP* weekloop = GetWeeekloop();
 
 	//Œ»İ‚Ìƒ‚[ƒh‚ğ”»•Ê‚µ‚ÄID‚ğ“ü‚ê‚é
-	bg->idx = weekloop->loopmood;
+	bg->idx = weekloop->status;
 }
 
 //=============================================================================

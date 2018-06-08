@@ -14,7 +14,13 @@
 #include "input.h"
 #include "event.h"
 #include "debugproc.h"
+#include "rival.h"
 
+#include "text.h"
+
+#include "file data.h"
+
+#include "weekresult.h"
 /******************************************************************************
 * マクロ定義
 ******************************************************************************/
@@ -36,9 +42,6 @@ void InitEvent(void)
 	//ポインタ取得
 	EVENT* event = GetEvent();
 
-	event->com = CHOICES_NULL;
-	event->com_timing = TIMING_NULL;
-	event->page = 0;
 	return;
 }
 /******************************************************************************
@@ -60,18 +63,22 @@ void UpdateEvent(void)
 	//ページ送り
 	if (GetKeyboardTrigger(DIK_SPACE))
 	{
-		event->page++;
-	}
-	//リザルトへの遷移
-	if (event->page >= EVENT00_MAX)
-	{
-		weekloop->loopmood = WEEKLOOP_RESULT;
+		AdvanceText();
 	}
 
-	//デバッグ文字
-#ifdef _DEBUG
-	PrintDebugProc("スペースキー:すすむ　エンターキー:アクション\n");
-#endif
+	if (GetKeyboardTrigger(DIK_1))
+	{
+		SetWeekresult(RIVAL_01);
+	}
+	if (GetKeyboardTrigger(DIK_2))
+	{
+		SetWeekresult(RIVAL_02);
+	}
+	if (GetKeyboardTrigger(DIK_3))
+	{
+		SetWeekresult(RIVAL_03);
+	}
+
 }
 
 /******************************************************************************
@@ -90,13 +97,21 @@ EVENT* GetEvent(void)
 	return &g_event;
 }
 
-/******************************************************************************
-* ページ数を返す関数
-******************************************************************************/
-int SetEventPage(void)
+//=============================================================================
+// イベントへ移動
+void SetEventScene(int target)
 {
 	//ポインタ取得
-	EVENT* event = GetEvent();
+	RIVAL *rival = GetRival(0);
+	WEEKLOOP *week = GetWeeekloop();
 
-	return event->page;
+	week->status = WEEKLOOP_EVENT;
+
+	for (int i = 0; i < RIVAL_MAX; i++)
+		(rival + i)->use = false;
+
+	(rival + target)->use = true;
+	LoadOptionText();	// オプションオンのテキストをバッファーに書き込む
+
+
 }

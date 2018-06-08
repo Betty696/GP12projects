@@ -76,6 +76,7 @@ typedef enum
 #endif // !SAFE_RELEASE
 
 #define VEC3CLEAR (D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+#define VEC2CLEAR (D3DXVECTOR2(0.0f, 0.0f))
 
 //=============================================================================
 // プロトタイプ宣言

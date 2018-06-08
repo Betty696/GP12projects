@@ -15,6 +15,10 @@
 #include "weekresult.h"
 #include "debugproc.h"
 
+#include "rival.h"
+#include "file data.h"
+#include "text.h"
+#include "text box.h"
 /******************************************************************************
 * マクロ定義
 ******************************************************************************/
@@ -58,12 +62,18 @@ void UpdateWeekresult(void)
 	{
 		//ここで週のカウントアップを行う
 		weekloop->week_cnt++;
-		weekloop->loopmood = WEEKLOOP_SCHEDULE;
+		weekloop->status = WEEKLOOP_TARGET;
+	}
+
+	//ページ送り
+	if (GetKeyboardTrigger(DIK_SPACE))
+	{
+		AdvanceText();
 	}
 
 	//デバッグ文字
 #ifdef _DEBUG
-	PrintDebugProc("エンターで進む\n");
+	//PrintDebugProc("エンターで進む\n");
 #endif
 }
 
@@ -81,4 +91,17 @@ void DrawWeekresult(void)
 WEEKRESULT* GetWeekresult(void)
 {
 	return &g_weekresult;
+}
+void SetWeekresult(int no)
+{
+	//ポインタ取得
+	RIVAL *rival = GetRival(0);
+	WEEKLOOP *week = GetWeeekloop();
+	week->status = WEEKLOOP_RESULT;
+
+	for (int i = 0; i < RIVAL_MAX; i++)
+		(rival + i)->use = false;
+
+	LoadResultText(no);	// リザルトのテキストをバッファーに書き込む
+
 }

@@ -11,8 +11,8 @@
 //=============================================================================
 // マクロ定義
 #define TEXT_BOX_TEXTURE	("data/texture/ui/speach bubble.png")	// テキストボックスのテクスチャーパス
-#define TEXT_BOX_POS_X		((SCREEN_WIDTH/2) - (TEXT_BOX_SIZE_X/2))	// テキストボックスの位置
-#define TEXT_BOX_POS_Y		((SCREEN_HEIGHT/2) + (SCREEN_HEIGHT/4) - (TEXT_BOX_SIZE_Y/2))
+#define TEXT_BOX_POS_X		(SCREEN_WIDTH/2)	// テキストボックスの位置
+#define TEXT_BOX_POS_Y		((SCREEN_HEIGHT/2) + (SCREEN_HEIGHT/4))
 #define TEXT_BOX_SIZE_X		(1205)				// テキストボックスの大きさ(ピクセル数の大きさ)
 #define TEXT_BOX_SIZE_Y		(300)
 
@@ -40,13 +40,13 @@ void InitTextBox(void)
 
 	texbox->use = true;
 
-	texbox->display = false;
+	texbox->display = true;
 
 	texbox->poly.Pos = D3DXVECTOR2(TEXT_BOX_POS_X, TEXT_BOX_POS_Y);
 	texbox->poly.Rot = 0.0f;
 	texbox->poly.Size = D3DXVECTOR2(TEXT_BOX_SIZE_X, TEXT_BOX_SIZE_Y);
 
-	texbox->alpha = 1.0f;
+	texbox->alpha = 0.0f;
 
 	texbox->poly.TexId = 0;
 
@@ -110,6 +110,6 @@ void DrawTextBox(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	TEXTBOX *texbox = &gTextBoxWk;
-
-	DrawBasic2DObject(pDevice,&texbox->poly.VtxBuff,&gTextBoxTexture);
+	if (texbox->alpha > 0.0f)
+		DrawBasic2DObject(pDevice,&texbox->poly.VtxBuff,&gTextBoxTexture);
 }

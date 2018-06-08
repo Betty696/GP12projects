@@ -32,6 +32,7 @@ void UninitWeekresult(void);
 void UpdateWeekresult(void);
 void DrawWeekresult(void);
 WEEKRESULT* GetWeekresult(void);
+void SetWeekresult(int no);
 /*******************************************************************************
 * 多重インクルード防止終了
 *******************************************************************************/

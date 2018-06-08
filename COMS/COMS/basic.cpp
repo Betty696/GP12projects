@@ -29,10 +29,10 @@ void SetBasic2DPos(POLY *poly)
 	poly->VtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	// 反射光の設定
-	pVtx[0].vtx = D3DXVECTOR3(poly->Pos.x, poly->Pos.y, 0.0f);
-	pVtx[1].vtx = D3DXVECTOR3(poly->Pos.x + poly->Size.x, poly->Pos.y, 0.0f);
-	pVtx[2].vtx = D3DXVECTOR3(poly->Pos.x, poly->Pos.y + poly->Size.y, 0.0f);
-	pVtx[3].vtx = D3DXVECTOR3(poly->Pos.x + poly->Size.x, poly->Pos.y + poly->Size.y, 0.0f);
+	pVtx[0].vtx = D3DXVECTOR3(poly->Pos.x - (poly->Size.x / 2), poly->Pos.y - (poly->Size.y / 2), 0.0f);
+	pVtx[1].vtx = D3DXVECTOR3(poly->Pos.x + (poly->Size.x / 2), poly->Pos.y - (poly->Size.y / 2), 0.0f);
+	pVtx[2].vtx = D3DXVECTOR3(poly->Pos.x - (poly->Size.x / 2), poly->Pos.y + (poly->Size.y / 2), 0.0f);
+	pVtx[3].vtx = D3DXVECTOR3(poly->Pos.x + (poly->Size.x / 2), poly->Pos.y + (poly->Size.y / 2), 0.0f);
 
 	// 頂点データをアンロックする
 	poly->VtxBuff->Unlock();
