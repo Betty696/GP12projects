@@ -24,7 +24,7 @@
 #define TEXT_ROW_MAX	(5)
 #define TEXT_ROW_HEIGHT	(25)
 
-#define TEST_SPEED		(1)
+#define TEST_SPEED		(3)
 
 #define BUFF_COLUMN_MAX	(MAX_PATH)
 #define BUFF_ROW_MAX	(MAX_PATH)
@@ -37,12 +37,13 @@ typedef struct
 	char	textbuf[BUFF_ROW_MAX][BUFF_COLUMN_MAX];	// バッファ文字列
 	char	textdis[TEXT_ROW_MAX][TEXT_COLUMN_MAX];	// 描画する文字列
 	int		order;									// 表示順番
-	int		bufcnt;									// バッファーの位置
+	int		currbufrow;								// バッファーの読み取り位置
 
 	int		rowmax;									// 読み込んでる行のマックス
 
 	RECT	rectPos[TEXT_ROW_MAX];					// テキストの描画位置
 	int		drawcnt[TEXT_ROW_MAX];					// 描画するテキストの数
+	int		drawcntmax[TEXT_ROW_MAX];				// 描画するテキストの数
 
 	int		wait;									// テキストスピード(待ち時間)
 }TEXT;

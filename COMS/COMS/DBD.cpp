@@ -15,7 +15,7 @@
 #include "DBD.h"
 
 #include "text.h"
-
+#include "weekloop.h"
 
 //=============================================================================
 // マクロ定義
@@ -69,6 +69,7 @@ void InitDBD(void)
 void DrawDBD(int no)
 {
 	TEXT *text = GetText();
+	WEEKLOOP *week = GetWeeekloop();
 	RECT	rect	= { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
 	char	str[256];
@@ -84,9 +85,24 @@ void DrawDBD(int no)
 
 	// テキスト表示数字
 	rect = { 0,Line(linecnt),SCREEN_WIDTH,SCREEN_HEIGHT };		// bg x and y
-	sprintf(str, "draw cnt 1:%d 2:%d 3:%d 4:%d 5:%d\n", text->drawcnt[0], text->drawcnt[1], text->drawcnt[2], text->drawcnt[3], text->drawcnt[4], text->drawcnt[5]);
+	switch (week->status)
+	{
+	case WEEKLOOP_DAY_START:
+		sprintf(str, "week->status = target\n");
+		break;
+	case WEEKLOOP_EVENT:
+		sprintf(str, "week->status = event\n");
+		break;
+	case WEEKLOOP_RESULT:
+		sprintf(str, "week->status = result\n");
+		break;
+	}
 	g_pD3DXFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 
+	// テキスト表示数字
+	rect = { 0,Line(linecnt),SCREEN_WIDTH,SCREEN_HEIGHT };		// bg x and y
+	sprintf(str, "drawmax:%d rowmax:%d\n", text->drawcnt[0], text->drawcntmax, text->rowmax);
+	g_pD3DXFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 
 
 
@@ -112,7 +128,7 @@ void DrawDBD(int no)
 		for (int i = 0; i < TEXT_ROW_MAX; i++)
 		{
 			rect = { 0,Line(linecnt),SCREEN_WIDTH,SCREEN_HEIGHT };		// bg x and y
-			sprintf(str, "buff:%s\n", text->textdis[i]);
+			sprintf(str, "draw:%s\n", text->textdis[i]);
 			g_pD3DXFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 		}
 	}

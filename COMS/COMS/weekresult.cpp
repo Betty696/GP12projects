@@ -19,6 +19,9 @@
 #include "file data.h"
 #include "text.h"
 #include "text box.h"
+#include "bg.h"
+#include "schedule.h"
+#include "fade.h"
 /******************************************************************************
 * マクロ定義
 ******************************************************************************/
@@ -60,9 +63,11 @@ void UpdateWeekresult(void)
 	//エンターで遷移＆週のカウントを進める
 	if (GetKeyboardTrigger(DIK_RETURN))
 	{
-		//ここで週のカウントアップを行う
-		weekloop->week_cnt++;
-		weekloop->status = WEEKLOOP_TARGET;
+		if (weekloop->week_cnt + 1 < DAYS_TILL_WEEK_LOOP)
+			AdvanceWeek();
+		else
+			SetFade(FADE_OUT, MODE_RESULT);
+
 	}
 
 	//ページ送り
@@ -98,6 +103,10 @@ void SetWeekresult(int no)
 	RIVAL *rival = GetRival(0);
 	WEEKLOOP *week = GetWeeekloop();
 	week->status = WEEKLOOP_RESULT;
+
+	SetBgTextureIdx(BG_IDX_DARK_ROOM);
+
+	SetTextBoxPress(Idx_PRESS_SPACE);
 
 	for (int i = 0; i < RIVAL_MAX; i++)
 		(rival + i)->use = false;

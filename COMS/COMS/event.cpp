@@ -16,11 +16,14 @@
 #include "debugproc.h"
 #include "rival.h"
 
+#include "bg.h"
+
 #include "text.h"
 
 #include "file data.h"
 
 #include "weekresult.h"
+#include "text box.h"
 /******************************************************************************
 * ƒ}ƒNƒ’è‹`
 ******************************************************************************/
@@ -106,6 +109,10 @@ void SetEventScene(int target)
 	WEEKLOOP *week = GetWeeekloop();
 
 	week->status = WEEKLOOP_EVENT;
+
+	SetBgTextureIdx(BG_IDX_OUTSIDE);
+
+	SetTextBoxPress(Idx_PRESS_SPACE);
 
 	for (int i = 0; i < RIVAL_MAX; i++)
 		(rival + i)->use = false;

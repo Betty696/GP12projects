@@ -11,9 +11,9 @@
 #include "input.h"
 //=============================================================================
 // マクロ定義
-#define RIVAL_01_FILE_PATH	"data/texture/chara/test.png"
-#define RIVAL_02_FILE_PATH	"data/texture/chara/test.png"
-#define RIVAL_03_FILE_PATH	"data/texture/chara/test.png"
+#define RIVAL_01_FILE_PATH	"data/texture/chara/二宮飛鳥.png"
+#define RIVAL_02_FILE_PATH	"data/texture/chara/白菊ほたる.png"
+#define RIVAL_03_FILE_PATH	"data/texture/chara/的場梨沙.png"
 
 
 #define RIVAL_01_SIZE_X	(256)
@@ -56,13 +56,13 @@ void InitRival(void)
 		switch (i)
 		{
 		case RIVAL_01:	// 画面の右側へ
-			rival->poly.Pos = SCREEN_POS_RIGHT;
-			break;
-		case RIVAL_02:	// 画面の左側へ
 			rival->poly.Pos = SCREEN_POS_LEFT;
 			break;
-		case RIVAL_03:		// 画面の真ん中へ
+		case RIVAL_02:	// 画面の左側へ
 			rival->poly.Pos = SCREEN_POS_MIDDLE;
+			break;
+		case RIVAL_03:		// 画面の真ん中へ
+			rival->poly.Pos = SCREEN_POS_RIGHT;
 			break;
 		}
 		rival->poly.Rot = 0.0f;

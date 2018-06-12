@@ -22,7 +22,8 @@
 //=============================================================================
 // プロトタイプ宣言
 void OpenEventFile(int week);
-void LoadTargetText(int Idx);
+void LoadDayStartText(void);
+void LoadTargetSelectText(int Idx);
 void LoadOptionText(void);
 void LoadResultText(int Idx);
 

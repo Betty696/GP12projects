@@ -12,7 +12,7 @@
 
 //=============================================================================
 // マクロ定義
-
+#define DAYS_TILL_WEEK_LOOP	(5)
 //=============================================================================
 // 構造体宣言
 //週ループ構造体
@@ -25,7 +25,7 @@ typedef struct
 enum
 {
 	WEEKLOOP_NULL = -1,
-	WEEKLOOP_TARGET,
+	WEEKLOOP_DAY_START,
 	WEEKLOOP_EVENT,
 	WEEKLOOP_RESULT,
 	WEEKLOOP_MAX
@@ -38,4 +38,5 @@ void UninitWeekloop(void);
 void UpdateWeekloop(void);
 void DrawWeekloop(void);
 WEEKLOOP* GetWeeekloop(void);
+void AdvanceWeek(void);
 #endif

@@ -18,6 +18,9 @@
 #include "rival.h"
 #include "basic.h"
 #include "file data.h"
+#include "bg.h"
+#include "text.h"
+#include "text box.h"
 /******************************************************************************
 * マクロ定義
 ******************************************************************************/
@@ -108,8 +111,36 @@ void UpdateSchedule(void)
 	}
 
 
-	if (GetKeyboardTrigger(DIK_SPACE))
+	if (GetKeyboardTrigger(DIK_RETURN))
 	{
 		SetEventScene(g_selection);
 	}
+
+	if (GetKeyboardTrigger(DIK_SPACE))
+	{
+		AdvanceText();
+	}
+}
+
+
+//=============================================================================
+// スケジュール画面にセット
+void SetScheduleScene(void)
+{
+	//ポインタ取得
+	RIVAL *rival = GetRival(0);
+	WEEKLOOP *week = GetWeeekloop();
+
+	week->status = WEEKLOOP_DAY_START;
+
+	SetBgTextureIdx(BG_IDX_CLASS_ROOM);
+
+	SetTextBoxPress(Idx_PRESS_SPACE);
+
+	for (int i = 0; i < RIVAL_MAX; i++)
+		(rival + i)->use = true;
+
+
+	LoadDayStartText();	// 一日の始まりのテキストをバッファーに書き込む
+
 }

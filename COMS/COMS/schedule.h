@@ -33,7 +33,5 @@ enum
 void InitSchedule(void);
 void UninitSchedule(void);
 void UpdateSchedule(void);
-/*******************************************************************************
-* 多重インクルード防止終了
-*******************************************************************************/
+void SetScheduleScene(void);
 #endif

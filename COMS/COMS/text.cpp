@@ -11,6 +11,7 @@
 #include "weekloop.h"
 #include "input.h"
 
+#include "text box.h"
 //=============================================================================
 // マクロ定義
 
@@ -21,8 +22,6 @@
 // グローバル変数
 TEXT		g_text;
 LPD3DXFONT	TextFont = NULL;		// テキスト用のフォント
-
-bool	LoadNewText = false;		// 新しく分を読み込むか
 
 //=============================================================================
 // テキストの初期化処理
@@ -37,7 +36,7 @@ void InitText(void)
 	ClearText(&text->textdis[0][0]);
 	ClearText(&text->textbuf[0][0]);
 	text->order = 0;
-	text->bufcnt = 0;
+	text->currbufrow = 0;
 
 	for (int i = 0; i < TEXT_ROW_MAX; i++)
 	{
@@ -85,12 +84,26 @@ void UpdateText(void)
 				|| i == 0 && text->drawcnt[i] < TEXT_COLUMN_MAX)
 			{
 				text->drawcnt[i]++;
+				if (text->drawcnt[i] > text->drawcntmax[i])
+				{
+					text->drawcnt[i] = TEXT_COLUMN_MAX;
+					if (i == TEXT_ROW_MAX -1 && text->currbufrow == text->rowmax)
+					{
+						switch (weekloop->status)
+						{
+						case WEEKLOOP_DAY_START:
+							SetTextBoxPress(Idx_PRESS_ENTER);
+							break;
+						case WEEKLOOP_EVENT:
+							SetTextBoxPress(Idx_PRESS_123);
+							break;
+						case WEEKLOOP_RESULT:
+							SetTextBoxPress(Idx_PRESS_ENTER);
+							break;
+						}
+					}
+				}
 			}
-			else if (text->drawcnt[(TEXT_ROW_MAX - 1)] == TEXT_COLUMN_MAX && i + 1 == TEXT_ROW_MAX)
-			{
-				LoadNewText = true;
-			}
-
 		}
 	}
 }
@@ -113,6 +126,7 @@ void AdvanceText(void)
 {
 	TEXT *text = &g_text;
 
+	int j = 0;
 	for (int i = 0; i < TEXT_ROW_MAX; i++)
 	{
 		if (text->drawcnt[i] != TEXT_COLUMN_MAX)
@@ -120,20 +134,29 @@ void AdvanceText(void)
 			text->drawcnt[i] = TEXT_COLUMN_MAX;
 			break;
 		}
+		else
+			j++;
 	}
 
-	if (LoadNewText)
+	if (j == TEXT_ROW_MAX)
 	{
-		for (int i = 0; i < TEXT_ROW_MAX && text->bufcnt < text->rowmax; i++, text->bufcnt++)
+		if (text->currbufrow < text->rowmax)
 		{
-			strcpy(&text->textdis[i][0], &text->textbuf[text->bufcnt][0]);
-		}
+			for (int i = 0; i < TEXT_ROW_MAX; i++)
+			{
+				memset(&text->textdis[i][0], 0, strlen(&text->textdis[i][0]));
+				text->drawcnt[i] = 0;
+			}
+			for (int i = 0; i < TEXT_ROW_MAX; i++, text->currbufrow++)
+			{
+				if (text->currbufrow >= text->rowmax)
+					break;
+				strcpy(&text->textdis[i][0], &text->textbuf[text->currbufrow][0]);
+				text->drawcntmax[i] = strlen(text->textdis[i]);
+				text->drawcnt[i] = 0;
+			}
 
-		for (int i = 0; i < TEXT_ROW_MAX; i++)
-		{
-			text->drawcnt[i] = 0;
 		}
-		LoadNewText = false;
 	}
 }
 //=============================================================================

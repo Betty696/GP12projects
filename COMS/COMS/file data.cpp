@@ -14,6 +14,7 @@
 #define TXT_FILE_EXTENSION	".txt"
 #define CSV_FILE_EXTENSION	".csv"
 
+#define DAY_START			"##Daystart"
 #define SEARCH_RIVAL		"##Rival"
 #define RIVAL01				"##Rival1"
 #define RIVAL02				"##Rival2"
@@ -34,6 +35,13 @@
 //=============================================================================
 // グローバル変数
 char	FileData[MAX_PATH][MAX_PATH];		// ファイルの中身
+
+
+//=============================================================================
+// プロトタイプ宣言
+void ClearTextData(void);
+
+void CopyFromBuf(void);
 
 //=============================================================================
 // ファイルを開く処理
@@ -75,7 +83,46 @@ void OpenEventFile(int week)
 
 //=============================================================================
 // ターゲットする女のテキストデータをバッファーに書き込む処理
-void LoadTargetText(int Idx)
+void LoadDayStartText(void)
+{
+	TEXT *text = GetText();
+
+	char search[20];
+
+	strcpy(search, DAY_START);		// 検索対象を検索
+
+	int row = 0;							// ファイルデータのデータの位置指定
+	for (row = 0; row < MAX_PATH; row++)		// コピーする場所を検索
+	{
+		if (strcmp(&FileData[row][0], &search[0]) == 0)
+		{
+			row++;
+			break;
+		}
+	}
+
+	ClearTextData();		// テキストの構造体の中身をクリア
+
+	int j = 0;							// バッファーの位置指定
+
+	while (true)						// 終わりまでコピー
+	{
+		if (strcmp(&FileData[row][0], END_OF_SECTION) == 0)
+			break;
+
+		strcpy(&text->textbuf[j][0], &FileData[row][0]); // テキストバッファーにコピー
+
+		row++;
+		j++;
+	}
+	text->rowmax = j;					// 読み取る行のマックスセット
+
+	CopyFromBuf();
+}
+
+//=============================================================================
+// ターゲットする女のテキストデータをバッファーに書き込む処理
+void LoadTargetSelectText(int Idx)
 {
 	TEXT *text = GetText();
 
@@ -90,11 +137,17 @@ void LoadTargetText(int Idx)
 	for (row = 0; row < MAX_PATH; row++)		// コピーする場所を検索
 	{
 		if (strcmp(&FileData[row][0], &search[0]) == 0)
+		{
+			row++;
 			break;
+		}
 	}
 
 	for (int i = 0; i < BUFF_ROW_MAX; i++)	// バッファーをクリア
-		memset(&text->textbuf[i][0], 0, sizeof(text->textbuf[i][0]));
+		memset(&text->textbuf[i][0], 0, strlen(&text->textbuf[i][0]));
+
+	for (int i = 0; i < TEXT_ROW_MAX; i++)
+		memset(&text->textdis[i][0], 0, strlen(&text->textdis[i][0]));
 
 	int j = 0;							// バッファーの位置指定
 	while (true)						// 終わりまでコピー
@@ -111,6 +164,8 @@ void LoadTargetText(int Idx)
 
 	for (int i = 0; i < TEXT_ROW_MAX; i++)	// 表示カウントをゼロに
 		text->drawcnt[i] = 0;
+
+	CopyFromBuf();
 }
 
 //=============================================================================
@@ -130,7 +185,10 @@ void LoadOptionText()
 	}
 
 	for (int i = 0; i < BUFF_ROW_MAX; i++)	// バッファーをクリア
-		memset(&text->textbuf[i][0], 0, sizeof(text->textbuf[i][0]));
+		memset(&text->textbuf[i][0], 0, strlen(&text->textbuf[i][0]));
+
+	for (int i = 0; i < TEXT_ROW_MAX; i++)
+		memset(&text->textdis[i][0], 0, strlen(&text->textdis[i][0]));
 
 	int j = 0;							// バッファーの位置指定
 	while (true)						// 終わりまでコピー
@@ -147,6 +205,10 @@ void LoadOptionText()
 
 	for (int i = 0; i < TEXT_ROW_MAX; i++)	// 表示カウントをゼロに
 		text->drawcnt[i] = 0;
+
+
+	CopyFromBuf();
+
 }
 
 //=============================================================================
@@ -163,14 +225,21 @@ void LoadResultText(int Idx)
 	strcat(search, buf);
 
 	int row = 0;							// ファイルデータのデータの位置指定
-	for (row = 0; row < MAX_PATH; row++)		// コピーする場所を検索
+	for (row = 0; row < MAX_PATH; row++)	// コピーする場所を検索
 	{
 		if (strcmp(&FileData[row][0], &search[0]) == 0)
+		{
+			row++;
 			break;
+		}
 	}
 
 	for (int i = 0; i < BUFF_ROW_MAX; i++)	// バッファーをクリア
-		memset(&text->textbuf[i][0], 0, sizeof(text->textbuf[i][0]));
+		memset(&text->textbuf[i][0], 0, strlen(&text->textbuf[i][0]));
+
+	for (int i = 0; i < TEXT_ROW_MAX;i++)
+		memset(&text->textdis[i][0], 0, strlen(&text->textdis[i][0]));
+
 
 	int j = 0;							// バッファーの位置指定
 	while (true)						// 終わりまでコピー
@@ -184,7 +253,38 @@ void LoadResultText(int Idx)
 		j++;
 	}
 	text->rowmax = j;					// 読み取る行のマックスセット
+	for (int i = 0; i < TEXT_ROW_MAX; i++)	// 表示カウントをゼロに
+		text->drawcnt[i] = 0;
+
+
+	CopyFromBuf();
+}
+
+
+
+void ClearTextData(void)
+{
+	TEXT *text = GetText();
+
+	for (int i = 0; i < BUFF_ROW_MAX; i++)	// バッファーをクリア
+		memset(&text->textbuf[i][0], 0, strlen(&text->textbuf[i][0]));
+
+	for (int i = 0; i < TEXT_ROW_MAX; i++)
+		memset(&text->textdis[i][0], 0, strlen(&text->textdis[i][0]));
 
 	for (int i = 0; i < TEXT_ROW_MAX; i++)	// 表示カウントをゼロに
 		text->drawcnt[i] = 0;
+}
+
+void CopyFromBuf(void)
+{
+	TEXT *text = GetText();
+
+	text->currbufrow = 0;
+	for (int i = 0; i < TEXT_ROW_MAX && i < text->rowmax; i++, text->currbufrow++)
+	{
+		strcpy(&text->textdis[i][0], &text->textbuf[text->currbufrow][0]);
+		text->drawcnt[i] = 0;
+		text->drawcntmax[i] = strlen(text->textdis[i]);
+	}
 }
