@@ -14,11 +14,17 @@
 #include "input.h"
 #include "schedule.h"
 #include "event.h"
-#include "debugproc.h"
 
+#include "rival.h"
+#include "basic.h"
+#include "file data.h"
+#include "bg.h"
+#include "text.h"
+#include "text box.h"
 /******************************************************************************
 * マクロ定義
 ******************************************************************************/
+#define SELECTION_POP_UP_VAL	(100.0f)
 
 /******************************************************************************
 * プロトタイプ宣言
@@ -27,7 +33,8 @@
 /******************************************************************************
 * グローバル変数
 ******************************************************************************/
-SCHEDULE g_schedule;		//グローバル変数（複数作成必要なし)
+int g_selection = ACTION_1;
+
 
 /******************************************************************************
 * 初期化処理
@@ -54,55 +61,86 @@ void UninitSchedule(void)
 void UpdateSchedule(void)
 {
 	//ポインタ取得
-	SCHEDULE* schedule = GetSchedule();
 	WEEKLOOP* weekloop = GetWeeekloop();
+	RIVAL *rival = GetRival(0);
 
-	//スケジュール選択開始&イベントへの遷移
-	if (GetKeyboardTrigger(DIK_1))	//一番のライヴァルにアクション
+	int check = g_selection;
+
+
+	if (GetKeyboardTrigger(DIK_D))
 	{
-		schedule->com = ACTION_1;
-		schedule->com_obj = IDX_RAIVAL00;
-		//遷移も行う
-		weekloop->loopmood = WEEKLOOP_EVENT;
-		//緊急でここに書く
-		InitEvent();
+		g_selection--;
+		if (g_selection <= ACTION_NULL)
+			g_selection = ACTION_MAX - 1;
 	}
-	else if (GetKeyboardTrigger(DIK_2))	//一番のライヴァルにアクション
+
+	if (GetKeyboardTrigger(DIK_A))
 	{
-		schedule->com = ACTION_1;
-		schedule->com_obj = IDX_RAIVAL01;
-		//遷移も行う
-		weekloop->loopmood = WEEKLOOP_EVENT;
-		//緊急でここに書く
-		InitEvent();
+		g_selection++;
+		if (g_selection >= ACTION_MAX)
+			g_selection = ACTION_NULL + 1;
 	}
-	else if (GetKeyboardTrigger(DIK_3))	//一番のライヴァルにアクション
+
+	switch (g_selection) // セレクションアニメーション
 	{
-		schedule->com = ACTION_1;
-		schedule->com_obj = IDX_RAIVAL02;
-		//遷移も行う
-		weekloop->loopmood = WEEKLOOP_EVENT;
-		//緊急でここに書く
-		InitEvent();
+	case ACTION_1:
+		rival->poly.Pos = SCREEN_POS_LEFT;
+		rival->poly.Pos.y -= SELECTION_POP_UP_VAL;
+		(rival + 1)->poly.Pos = SCREEN_POS_MIDDLE;
+		(rival + 2)->poly.Pos = SCREEN_POS_RIGHT;
+		break;
+	case ACTION_2:
+		rival->poly.Pos = SCREEN_POS_LEFT;
+		(rival + 1)->poly.Pos = SCREEN_POS_MIDDLE;
+		(rival + 1)->poly.Pos.y -= SELECTION_POP_UP_VAL;
+		(rival + 2)->poly.Pos = SCREEN_POS_RIGHT;
+		break;
+	case ACTION_3:
+		rival->poly.Pos = SCREEN_POS_LEFT;
+		(rival + 1)->poly.Pos = SCREEN_POS_MIDDLE;
+		(rival + 2)->poly.Pos = SCREEN_POS_RIGHT;
+		(rival + 2)->poly.Pos.y -= SELECTION_POP_UP_VAL;
+		break;
 	}
-	//デバッグ文字
-#ifdef _DEBUG
-	PrintDebugProc("1キー　２キー　３キーどれかおして\n");
-#endif
+
+	if (g_selection != check)	// セレクションが変わっていたら、位置変更
+	{
+		SetBasic2DPos(&rival->poly);
+		SetBasic2DPos(&(rival + 1)->poly);
+		SetBasic2DPos(&(rival + 2)->poly);
+	}
+
+
+	if (GetKeyboardTrigger(DIK_RETURN))
+	{
+		SetEventScene(g_selection);
+	}
+
+	if (GetKeyboardTrigger(DIK_SPACE))
+	{
+		AdvanceText();
+	}
 }
 
-/******************************************************************************
-* 描画関数
-******************************************************************************/
-void DrawSchedule(void)
-{
 
-}
-
-/******************************************************************************
-* 描画関数
-******************************************************************************/
-SCHEDULE* GetSchedule(void)
+//=============================================================================
+// スケジュール画面にセット
+void SetScheduleScene(void)
 {
-	return &g_schedule;
+	//ポインタ取得
+	RIVAL *rival = GetRival(0);
+	WEEKLOOP *week = GetWeeekloop();
+
+	week->status = WEEKLOOP_DAY_START;
+
+	SetBgTextureIdx(BG_IDX_CLASS_ROOM);
+
+	SetTextBoxPress(Idx_PRESS_SPACE);
+
+	for (int i = 0; i < RIVAL_MAX; i++)
+		(rival + i)->use = true;
+
+
+	LoadDayStartText();	// 一日の始まりのテキストをバッファーに書き込む
+
 }

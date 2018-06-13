@@ -2,6 +2,7 @@
 //
 // テキストの処理 [text.h]
 // Author : 藤田高輔
+// 改変者 : 川井
 //
 //=============================================================================
 #ifndef _TEXT_H_
@@ -13,57 +14,47 @@
 
 //=============================================================================
 // マクロ定義
-#define TEXT_BOX_TEXTURE	("data/texture/ui/speach bubble.png")	// テキストボックスのテクスチャーパス
-#define TEXT_BOX_POS_X		(SCREEN_WIDTH/2)	// テキストボックスの位置
-#define TEXT_BOX_POS_Y		(SCREEN_HEIGHT/2)
-#define TEXT_BOX_SIZE_X		(1205)				// テキストボックスの大きさ(ピクセル数の大きさ)
-#define TEXT_BOX_SIZE_Y		(300)
 
-#define TEX_BOX_MAX			(1)					// マックス値	(いらないと思うけど)
+#define FONT_SIZE		(25)
 
+#define TEXT_POS_X		(60)
+#define TEXT_POS_Y		((SCREEN_HEIGHT/2) + 50)
 
+#define TEXT_COLUMN_MAX	(MAX_PATH)
+#define TEXT_ROW_MAX	(5)
+#define TEXT_ROW_HEIGHT	(25)
 
-#define TEXT_MAX	(1)										//テキスト最大数
-#define TEXT_KIND	(TEXT_IDX_MAX)							//種類数
-#define TEXT00_TEXTURE	("data/texture/BG/test01.png")		//テクスチャ名
-#define TEXT01_TEXTURE	("data/texture/BG/test02.png")		//テクスチャ名
-#define TEXT02_TEXTURE	("data/texture/BG/test03.png")		//テクスチャ名
-#define TEXT00_TEXTURE_SIZE_X		(SCREEN_WIDTH/2)		//テクスチャサイズX
-#define TEXT00_TEXTURE_SIZE_Y		(SCREEN_HEIGHT/2)		//テクスチャサイズY
-#define TEXT00_FIRST_POS_X		(SCREEN_WIDTH/2)			//テキスト初期位置
-#define TEXT00_FIRST_POS_Y		(SCREEN_HEIGHT/2)			//テキスト初期位置
+#define TEST_SPEED		(3)
 
-#define TEXT00_TEXTURE_PATTERN_DIVIDE_X	(1)					// アニメパターンのテクスチャ内分割数（X) 
-#define TEXT00_TEXTURE_PATTERN_DIVIDE_Y	(1)					// アニメパターンのテクスチャ内分割数（Y) 
-#define TEXT00_ANIM_PATTERN_NUM			(TEXTURE_TEXT_PATTERN_DIVIDE_X*TEXTURE_TEXT_PATTERN_DIVIDE_Y)	// アニメーションパターン数 
+#define BUFF_COLUMN_MAX	(MAX_PATH)
+#define BUFF_ROW_MAX	(MAX_PATH)
+
 //=============================================================================
 // 構造体宣言
 //テキスト構造体
 typedef struct
 {
-	VERTEX_2D			vertexWk[NUM_VERTEX];		// 頂点情報格納ワーク
-	D3DXVECTOR3			pos;						// ポリゴン表示用pos
-	D3DXVECTOR2			size;						// サイズ
-	bool				use;						// 使用フラグ
-	int					idx;						// テキスト番号
+	char	textbuf[BUFF_ROW_MAX][BUFF_COLUMN_MAX];	// バッファ文字列
+	char	textdis[TEXT_ROW_MAX][TEXT_COLUMN_MAX];	// 描画する文字列
+	int		order;									// 表示順番
+	int		currbufrow;								// バッファーの読み取り位置
+
+	int		rowmax;									// 読み込んでる行のマックス
+
+	RECT	rectPos[TEXT_ROW_MAX];					// テキストの描画位置
+	int		drawcnt[TEXT_ROW_MAX];					// 描画するテキストの数
+	int		drawcntmax[TEXT_ROW_MAX];				// 描画するテキストの数
+
+	int		wait;									// テキストスピード(待ち時間)
 }TEXT;
 
-enum
-{
-	TEXT_IDX_NULL = -1,
-	TEXT_IDX_00,
-	TEXT_IDX_01,
-	TEXT_IDX_02,
-	TEXT_IDX_MAX
-};
+
 //=============================================================================
 // プロトタイプ宣言
 void InitText(void);
-void UninitText(void);
+void ClearText(char *text);
 void UpdateText(void);
-void DrawText(void);
-HRESULT MakeVertexText(int no);
-void SetVertexText(int no);
-void SetTextureText(int no);
+void DrawTextData(void); // DrawTextはライブラリーのデファインであるからDrawTextData
+void AdvanceText(void);
 TEXT* GetText(void);
 #endif

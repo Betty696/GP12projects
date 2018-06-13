@@ -10,12 +10,11 @@
 #include "main.h"
 #include "basic.h"
 
-//=============================================================================
-// マクロ定義
 
 //=============================================================================
 // 構造体宣言
-//テキスト構造体
+
+//テキストボックス構造体
 typedef struct
 {
 	bool	use;
@@ -24,10 +23,30 @@ typedef struct
 	bool	display;
 }TEXTBOX;
 
+// プレスボタンの構造体
+typedef struct
+{
+	bool	use;
+	POLY	poly;
+	float	alpha;
+	bool	isfade;
+}TEXTBOXPRESS;
+
+//=============================================================================
+// マクロ定義
+
+typedef enum
+{
+	Idx_PRESS_SPACE = 0,
+	Idx_PRESS_ENTER,
+	Idx_PRESS_123,
+	TEX_BOX_PRESS_MAX
+};
 //=============================================================================
 // プロトタイプ宣言
 void InitTextBox(void);
 void UninitTextBox(void);
 void UpdateTextBox(void);
 void DrawTextBox(void);
+void SetTextBoxPress(int no);
 #endif

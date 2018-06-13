@@ -19,44 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="basic.cpp" />
-    <ClCompile Include="bg.cpp" />
-    <ClCompile Include="DBD.cpp" />
-    <ClCompile Include="debugproc.cpp" />
-    <ClCompile Include="event.cpp" />
-    <ClCompile Include="fade.cpp" />
-    <ClCompile Include="game BG.cpp" />
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="input.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="player.cpp" />
-    <ClCompile Include="raival.cpp" />
-    <ClCompile Include="result BG.cpp" />
-    <ClCompile Include="result.cpp" />
-    <ClCompile Include="schedule.cpp" />
-    <ClCompile Include="terget.cpp" />
-    <ClCompile Include="text box.cpp" />
-    <ClCompile Include="text.cpp" />
-    <ClCompile Include="title BG.cpp" />
-    <ClCompile Include="title.cpp" />
-    <ClCompile Include="weekloop.cpp" />
-    <ClCompile Include="weekresult.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="basic.h" />
     <ClInclude Include="bg.h" />
     <ClInclude Include="DBD.h" />
     <ClInclude Include="debugproc.h" />
     <ClInclude Include="event.h" />
     <ClInclude Include="fade.h" />
+    <ClInclude Include="file data.h" />
     <ClInclude Include="game BG.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="player.h" />
-    <ClInclude Include="raival.h" />
     <ClInclude Include="result BG.h" />
     <ClInclude Include="result.h" />
+    <ClInclude Include="rival.h" />
     <ClInclude Include="schedule.h" />
     <ClInclude Include="terget.h" />
     <ClInclude Include="text box.h" />
@@ -65,6 +42,31 @@
     <ClInclude Include="title.h" />
     <ClInclude Include="weekloop.h" />
     <ClInclude Include="weekresult.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="basic.cpp" />
+    <ClCompile Include="bg.cpp" />
+    <ClCompile Include="DBD.cpp" />
+    <ClCompile Include="debugproc.cpp" />
+    <ClCompile Include="event.cpp" />
+    <ClCompile Include="fade.cpp" />
+    <ClCompile Include="file data.cpp" />
+    <ClCompile Include="game BG.cpp" />
+    <ClCompile Include="game.cpp" />
+    <ClCompile Include="input.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="result BG.cpp" />
+    <ClCompile Include="result.cpp" />
+    <ClCompile Include="rival.cpp" />
+    <ClCompile Include="schedule.cpp" />
+    <ClCompile Include="terget.cpp" />
+    <ClCompile Include="text box.cpp" />
+    <ClCompile Include="text.cpp" />
+    <ClCompile Include="title BG.cpp" />
+    <ClCompile Include="title.cpp" />
+    <ClCompile Include="weekloop.cpp" />
+    <ClCompile Include="weekresult.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{22DDDB23-AAF4-49BB-A1CB-C95696A6F9E7}</ProjectGuid>

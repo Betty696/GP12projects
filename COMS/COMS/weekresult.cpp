@@ -15,6 +15,13 @@
 #include "weekresult.h"
 #include "debugproc.h"
 
+#include "rival.h"
+#include "file data.h"
+#include "text.h"
+#include "text box.h"
+#include "bg.h"
+#include "schedule.h"
+#include "fade.h"
 /******************************************************************************
 * マクロ定義
 ******************************************************************************/
@@ -56,14 +63,22 @@ void UpdateWeekresult(void)
 	//エンターで遷移＆週のカウントを進める
 	if (GetKeyboardTrigger(DIK_RETURN))
 	{
-		//ここで週のカウントアップを行う
-		weekloop->week_cnt++;
-		weekloop->loopmood = WEEKLOOP_SCHEDULE;
+		if (weekloop->week_cnt + 1 < DAYS_TILL_WEEK_LOOP)
+			AdvanceWeek();
+		else
+			SetFade(FADE_OUT, MODE_RESULT);
+
+	}
+
+	//ページ送り
+	if (GetKeyboardTrigger(DIK_SPACE))
+	{
+		AdvanceText();
 	}
 
 	//デバッグ文字
 #ifdef _DEBUG
-	PrintDebugProc("エンターで進む\n");
+	//PrintDebugProc("エンターで進む\n");
 #endif
 }
 
@@ -81,4 +96,21 @@ void DrawWeekresult(void)
 WEEKRESULT* GetWeekresult(void)
 {
 	return &g_weekresult;
+}
+void SetWeekresult(int no)
+{
+	//ポインタ取得
+	RIVAL *rival = GetRival(0);
+	WEEKLOOP *week = GetWeeekloop();
+	week->status = WEEKLOOP_RESULT;
+
+	SetBgTextureIdx(BG_IDX_DARK_ROOM);
+
+	SetTextBoxPress(Idx_PRESS_SPACE);
+
+	for (int i = 0; i < RIVAL_MAX; i++)
+		(rival + i)->use = false;
+
+	LoadResultText(no);	// リザルトのテキストをバッファーに書き込む
+
 }
