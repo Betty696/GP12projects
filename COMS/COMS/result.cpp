@@ -9,21 +9,15 @@
 #include "weekloop.h"
 #include "input.h"
 #include "fade.h"
+#include "player.h"
 
 #include "result BG.h"
 //=============================================================================
 // マクロ定義
-enum
-{
-	RESULT_1=0,
-	RESULT_2,
-	RESULT_3,
-	RESULT_BAD,
-	RESULT_MAX
-};
+
 //=============================================================================
 // プロトタイプ宣言
-int ChangeResultBG(void);
+void ChangeBG(void);
 
 //=============================================================================
 // グローバル変数
@@ -32,7 +26,7 @@ int ChangeResultBG;
 // 初期化処理
 void InitResult(void)
 {
-	ChangeResultBG = RESULT_1;
+	ChangeResultBG = HAPPYEND;
 	InitResultBG();
 
 	return;
@@ -52,10 +46,28 @@ void UninitResult(void)
 //=============================================================================
 void UpdateResult(void)
 {
-	if (GetKeyboardTrigger(DIK_F12))
+	PLAYER *player = GetPlayer();
+	switch (player->attraction)
 	{
-		ChangeResultBG();
+	case 0:
+	case 1:
+		ChangeResultBG = BADEND;
+		break;
+
+	case 2:
+	case 3:
+		ChangeResultBG = NORMALEND;
+		break;
+
+	case 4:
+		ChangeResultBG = HAPPYEND;
+		break;
 	}
+
+	//if (GetKeyboardTrigger(DIK_P)|| GetKeyboardPress(DIK_O))
+	//{
+	//	ChangeBG();
+	//}
 
 	//ポインタ取得
 	WEEKLOOP* weekloop = GetWeeekloop();
@@ -83,9 +95,9 @@ void DrawResult(void)
 //=============================================================================
 // リザルト画面切り替え処理
 //=============================================================================
-int ChangeResultBG(void)
+void ChangeBG(void)
 {
-		ChangeResultBG = (ChangeResultBG + 1) % RESULT_MAX;
+	ChangeResultBG = (ChangeResultBG + 1) % END_MAX;
 }
 
 //=============================================================================

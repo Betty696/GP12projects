@@ -6,6 +6,7 @@
 //=============================================================================
 #include "main.h"
 #include "result BG.h"
+#include "result.h"
 
 //=============================================================================
 // マクロ定義
@@ -14,7 +15,6 @@
 
 #ifdef _DEBUG
 #define RESULT_BG_TEX2	"data/texture/BG/result_sample2.jpg"
-#define RESULT_BG_TEX3	"data/texture/BG/result_sample3.jpg"
 
 #endif // _DEBUG
 
@@ -37,15 +37,15 @@ typedef struct
 //=============================================================================
 // グローバル変数
 LPDIRECT3DTEXTURE9		D3DResultBGTex = { NULL };		// テクスチャへのポインタ
-LPDIRECT3DTEXTURE9		D3DResultBGBadTex = { NULL };		// テクスチャへのポインタ
+LPDIRECT3DTEXTURE9		D3DResultBGTexBad = { NULL };		// テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 D3DResultBGVtxBuf = NULL;				// 頂点バッファインターフェースへのポインタ
 
 #ifdef _DEBUG
 LPDIRECT3DTEXTURE9		D3DResultBGTex2 = { NULL };		// テクスチャへのポインタ
-LPDIRECT3DTEXTURE9		D3DResultBGTex3 = { NULL };		// テクスチャへのポインタ
 
 #endif // _DEBUG
 
+int NumBG = 0;
 //=============================================================================
 // 初期化処理
 HRESULT InitResultBG(void)
@@ -55,11 +55,10 @@ HRESULT InitResultBG(void)
 
 	// テクスチャの設定
 	D3DXCreateTextureFromFile(pDevice, RESULT_BG_TEX, &D3DResultBGTex);
-	D3DXCreateTextureFromFile(pDevice, RESULT_BG_BADTEX, &D3DResultBGBadTex);
+	D3DXCreateTextureFromFile(pDevice, RESULT_BG_BADTEX, &D3DResultBGTexBad);
 
 #ifdef _DEBUG
 	D3DXCreateTextureFromFile(pDevice, RESULT_BG_TEX2, &D3DResultBGTex2);
-	D3DXCreateTextureFromFile(pDevice, RESULT_BG_TEX3, &D3DResultBGTex3);
 
 #endif // _DEBUG
 
@@ -80,6 +79,8 @@ HRESULT InitResultBG(void)
 void UninitResultBG(void)
 {
 	SAFE_RELEASE(D3DResultBGTex);
+	SAFE_RELEASE(D3DResultBGTexBad);
+	SAFE_RELEASE(D3DResultBGTex2);
 
 	SAFE_RELEASE(D3DResultBGVtxBuf);
 }
@@ -88,6 +89,7 @@ void UninitResultBG(void)
 // 更新処理
 void UpdateResultBG(void)
 {
+	NumBG = GetChangeResultBG();
 
 }
 
@@ -103,11 +105,28 @@ void DrawResultBG(void)
 	// 頂点フォーマットの設定
 	pDevice->SetFVF(FVF_VERTEX_2D);
 
-	// テクスチャの設定
-	pDevice->SetTexture(0, D3DResultBGTex);
+	switch (NumBG)
+	{
+	case HAPPYEND:
+		// テクスチャの設定
+		pDevice->SetTexture(0, D3DResultBGTex);
+		break;
 
+	case NORMALEND:
+		// テクスチャの設定
+		pDevice->SetTexture(0, D3DResultBGTex2);
+		break;
+
+	case BADEND:
+		// テクスチャの設定
+		pDevice->SetTexture(0, D3DResultBGTexBad);
+
+		break;
+
+	}
 	// ポリゴンの描画
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
+
 }
 
 

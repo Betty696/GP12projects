@@ -15,5 +15,14 @@ void InitResult(void);
 void UninitResult(void);
 void UpdateResult(void);
 void DrawResult(void);
+int GetChangeResultBG(void);
+
+enum
+{
+	HAPPYEND = 0,
+	NORMALEND,
+	BADEND,
+	END_MAX
+};
 
 #endif
