@@ -9,7 +9,14 @@
 
 //=============================================================================
 // マクロ定義
-#define RESULT_BG_TEX	"data/texture/BG/result bg.png"
+#define RESULT_BG_TEX		"data/texture/BG/result_sample1.jpg"
+#define RESULT_BG_BADTEX	"data/texture/BG/result_sample4.jpg"
+
+#ifdef _DEBUG
+#define RESULT_BG_TEX2	"data/texture/BG/result_sample2.jpg"
+#define RESULT_BG_TEX3	"data/texture/BG/result_sample3.jpg"
+
+#endif // _DEBUG
 
 //=============================================================================
 // プロトタイプ宣言
@@ -30,10 +37,17 @@ typedef struct
 //=============================================================================
 // グローバル変数
 LPDIRECT3DTEXTURE9		D3DResultBGTex = { NULL };		// テクスチャへのポインタ
+LPDIRECT3DTEXTURE9		D3DResultBGBadTex = { NULL };		// テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 D3DResultBGVtxBuf = NULL;				// 頂点バッファインターフェースへのポインタ
 
-																//=============================================================================
-																// 初期化処理
+#ifdef _DEBUG
+LPDIRECT3DTEXTURE9		D3DResultBGTex2 = { NULL };		// テクスチャへのポインタ
+LPDIRECT3DTEXTURE9		D3DResultBGTex3 = { NULL };		// テクスチャへのポインタ
+
+#endif // _DEBUG
+
+//=============================================================================
+// 初期化処理
 HRESULT InitResultBG(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
@@ -41,6 +55,13 @@ HRESULT InitResultBG(void)
 
 	// テクスチャの設定
 	D3DXCreateTextureFromFile(pDevice, RESULT_BG_TEX, &D3DResultBGTex);
+	D3DXCreateTextureFromFile(pDevice, RESULT_BG_BADTEX, &D3DResultBGBadTex);
+
+#ifdef _DEBUG
+	D3DXCreateTextureFromFile(pDevice, RESULT_BG_TEX2, &D3DResultBGTex2);
+	D3DXCreateTextureFromFile(pDevice, RESULT_BG_TEX3, &D3DResultBGTex3);
+
+#endif // _DEBUG
 
 	MakeVertexResultBG(pDevice);
 
@@ -64,7 +85,7 @@ void UninitResultBG(void)
 }
 
 //=============================================================================
-// 最新処理
+// 更新処理
 void UpdateResultBG(void)
 {
 
